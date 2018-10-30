@@ -9,26 +9,15 @@ class Program {
 
 class VariableDeclaration {
   val Variable[1] variable;
-  val VariableInitialization[1] variableInitialization;
+  val VariableInitialization[*] variableInitialization;
 }
 
 class Variable {
   attr String[1] name;
 }
 
-abstract class VariableInitialization {
-}
-
-class VariableLiteralInitialization extends VariableInitialization {
-	val LiteralValue[1] literalValue;
-}
-
-class VariableReferenceInitialization extends VariableInitialization {
-	ref Variable[1] variable;
-}
-
-class VariableAssignmentInitialization extends VariableInitialization {
-	val Expression[1] expression;
+class VariableInitialization {
+	val Expression[1] initialization;
 }
 
 abstract class Statement {
@@ -75,7 +64,7 @@ class MulExpression extends ArithmeticExpression {
 }
 
 abstract class UnaryExpression extends Expression {
-	
+	val Expression[1] operand;
 }
 
 // Intended to be used with an initialized null value

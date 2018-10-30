@@ -12,22 +12,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
         eType="#//Variable" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variableInitialization"
-        lowerBound="1" eType="#//VariableInitialization" containment="true"/>
+        upperBound="-1" eType="#//VariableInitialization" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Variable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="VariableInitialization" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="VariableLiteralInitialization" eSuperTypes="#//VariableInitialization">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="literalValue" lowerBound="1"
-        eType="#//LiteralValue" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="VariableReferenceInitialization" eSuperTypes="#//VariableInitialization">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
-        eType="#//Variable"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="VariableAssignmentInitialization" eSuperTypes="#//VariableInitialization">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="expression" lowerBound="1"
+  <eClassifiers xsi:type="ecore:EClass" name="VariableInitialization">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialization" lowerBound="1"
         eType="#//Expression" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Statement" abstract="true"/>
@@ -62,4 +53,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="SubExpression" eSuperTypes="#//ArithmeticExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="DivExpression" eSuperTypes="#//ArithmeticExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="MulExpression" eSuperTypes="#//ArithmeticExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" abstract="true" eSuperTypes="#//Expression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operand" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryMinusExpression" eSuperTypes="#//UnaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParenthesisExpression" eSuperTypes="#//UnaryExpression"/>
 </ecore:EPackage>

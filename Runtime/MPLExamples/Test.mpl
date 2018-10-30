@@ -1,7 +1,7 @@
 Program Test 
-	Variables a, b.
+	Variables a, b, c := 3.
 	
 	//Initializing a
-	a := 3 + 3 + 3.
-	b := a + 4.
+	a := 3.
+	b := (a + 4) + - c.
 end.

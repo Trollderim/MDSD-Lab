@@ -26,7 +26,8 @@ RULES {
 		(!1 statements)*
 		"end" ".";
 	
-	VariableDeclaration ::= variable;
+	VariableDeclaration ::= variable (variableInitialization)?;
+	VariableInitialization ::= ":=" initialization;
 	Variable ::= name[];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
@@ -37,6 +38,21 @@ RULES {
 	
 	@Operator(type="binary_left_associative", weight="1", superclass="Expression")
 	AddExpression ::= operand1 #1 "+" #1 operand2;
+	
+	@Operator(type="binary_left_associative", weight="1", superclass="Expression")
+	SubExpression ::= operand1 #1 "-" #1 operand2;
+	
+	@Operator(type="binary_left_associative", weight="2", superclass="Expression")
+	DivExpression ::= operand1 #1 "/" #1 operand2;
+	
+	@Operator(type="binary_left_associative", weight="2", superclass="Expression")
+	MulExpression ::= operand1 #1 "*" #1 operand2;
+	
+	@Operator(type="unary_prefix", weight="4", superclass="Expression")
+	UnaryMinusExpression ::= "-" operand;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
+	ParenthesisExpression ::= "(" operand ")";
 	
 	Assignment ::= leftHandSide #1 ":=" #1 rightHandSide ".";
 	
