@@ -3,16 +3,32 @@ package mpl;
 
 class Program {
   attr String[1] name;
-  val VariableDeclaration[*] variabledeclaration;
-  val Statement[*] statement;
+  val VariableDeclaration[*] variableDeclarations;
+  val Statement[*] statements;
 }
 
 class VariableDeclaration {
   val Variable[1] variable;
+  val VariableInitialization[1] variableInitialization;
 }
 
 class Variable {
-  attr String name;
+  attr String[1] name;
+}
+
+abstract class VariableInitialization {
+}
+
+class VariableLiteralInitialization extends VariableInitialization {
+	val LiteralValue[1] literalValue;
+}
+
+class VariableReferenceInitialization extends VariableInitialization {
+	ref Variable[1] variable;
+}
+
+class VariableAssignmentInitialization extends VariableInitialization {
+	val Expression[1] expression;
 }
 
 abstract class Statement {
@@ -34,11 +50,11 @@ abstract class AtomicExpression extends Expression {
 }
 
 class LiteralValue extends AtomicExpression {
-  attr int rawValue;
+  attr int[1] rawValue;
 }
 
 class VariableReference extends AtomicExpression {
-  ref Variable variable;
+  ref Variable[1] variable;
 }
 
 abstract class ArithmeticExpression extends Expression {
@@ -46,6 +62,26 @@ abstract class ArithmeticExpression extends Expression {
   val Expression[1] operand2;
 }
 
-class AdditionOperator extends ArithmeticExpression {
+class AddExpression extends ArithmeticExpression {
+}
+
+class SubExpression extends ArithmeticExpression {
+}
+
+class DivExpression extends ArithmeticExpression {
+}
+
+class MulExpression extends ArithmeticExpression {
+}
+
+abstract class UnaryExpression extends Expression {
+	
+}
+
+// Intended to be used with an initialized null value
+class UnaryMinusExpression extends UnaryExpression {
+}
+
+class ParenthesisExpression extends UnaryExpression {
 }
 

@@ -15,9 +15,20 @@
     </genClasses>
     <genClasses ecoreClass="MPL.ecore#//VariableDeclaration">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//VariableDeclaration/variable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//VariableDeclaration/variableInitialization"/>
     </genClasses>
     <genClasses ecoreClass="MPL.ecore#//Variable">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MPL.ecore#//Variable/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="MPL.ecore#//VariableInitialization"/>
+    <genClasses ecoreClass="MPL.ecore#//VariableLiteralInitialization">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//VariableLiteralInitialization/literalValue"/>
+    </genClasses>
+    <genClasses ecoreClass="MPL.ecore#//VariableReferenceInitialization">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MPL.ecore#//VariableReferenceInitialization/variable"/>
+    </genClasses>
+    <genClasses ecoreClass="MPL.ecore#//VariableAssignmentInitialization">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//VariableAssignmentInitialization/expression"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MPL.ecore#//Statement"/>
     <genClasses ecoreClass="MPL.ecore#//Assignment">
@@ -40,5 +51,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ArithmeticExpression/operand2"/>
     </genClasses>
     <genClasses ecoreClass="MPL.ecore#//AddExpression"/>
+    <genClasses ecoreClass="MPL.ecore#//SubExpression"/>
+    <genClasses ecoreClass="MPL.ecore#//DivExpression"/>
+    <genClasses ecoreClass="MPL.ecore#//MulExpression"/>
   </genPackages>
 </genmodel:GenModel>
