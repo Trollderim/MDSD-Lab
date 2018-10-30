@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/edu.mdsd.mpl/src-gen" editDirectory="/edu.mdsd.mpl.edit/src-gen"
-    editorDirectory="/edu.mdsd.mpl.editor/src-gen" modelPluginID="edu.mdsd.mpl" modelName="Mpl"
+    editorDirectory="/edu.mdsd.mpl.editor/src-gen" modelPluginID="edu.mdsd.mpl" modelName="mpl"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory="/edu.mdsd.mpl.tests/src-gen"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="10.0" copyrightFields="false"
     operationReflection="true" importOrganizing="true">
@@ -10,8 +10,8 @@
       ecorePackage="MPL.ecore#/">
     <genClasses ecoreClass="MPL.ecore#//Program">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MPL.ecore#//Program/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//Program/variabledeclaration"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//Program/statement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//Program/variableDeclarations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//Program/statements"/>
     </genClasses>
     <genClasses ecoreClass="MPL.ecore#//VariableDeclaration">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//VariableDeclaration/variable"/>
@@ -39,6 +39,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ArithmeticExpression/operand1"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ArithmeticExpression/operand2"/>
     </genClasses>
-    <genClasses ecoreClass="MPL.ecore#//AdditionOperator"/>
+    <genClasses ecoreClass="MPL.ecore#//AddExpression"/>
   </genPackages>
 </genmodel:GenModel>

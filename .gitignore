@@ -82,4 +82,6 @@ xtend-gen/
 
 
 # End of https://www.gitignore.io/api/xtext,eclipse
-
+org.emftext.commons.antlr3_4_0/
+edu.mdsd.mpl.resource.mpl.ui
+edu.mdsd.mpl.resource.mpl

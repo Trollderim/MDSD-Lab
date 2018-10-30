@@ -11,7 +11,7 @@
       <package
             uri="http://mdsd.edu/mpl/1.0"
             class="edu.mdsd.mpl.MplPackage"
-            genModel="model/mpl.genmodel"/>
+            genModel="model/MPL.genmodel"/>
    </extension>
    <extension
          point="org.eclipse.emf.validation.constraintProviders">
