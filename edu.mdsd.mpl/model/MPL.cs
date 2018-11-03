@@ -26,8 +26,7 @@ RULES {
 		(!1 statements)*
 		"end" ".";
 	
-	VariableDeclaration ::= variable (variableInitialization)?;
-	VariableInitialization ::= ":=" initialization;
+	VariableDeclaration ::= variable ":=" (variableInitialization)?;
 	Variable ::= name[];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")

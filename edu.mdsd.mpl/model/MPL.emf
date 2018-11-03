@@ -9,15 +9,11 @@ class Program {
 
 class VariableDeclaration {
   val Variable[1] variable;
-  val VariableInitialization[*] variableInitialization;
+  val Expression variableInitialization;
 }
 
 class Variable {
   attr String[1] name;
-}
-
-class VariableInitialization {
-	val Expression[1] initialization;
 }
 
 abstract class Statement {
@@ -64,10 +60,9 @@ class MulExpression extends ArithmeticExpression {
 }
 
 abstract class UnaryExpression extends Expression {
-	val Expression[1] operand;
+  val Expression[1] operand;
 }
 
-// Intended to be used with an initialized null value
 class UnaryMinusExpression extends UnaryExpression {
 }
 
