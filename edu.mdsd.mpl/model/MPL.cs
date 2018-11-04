@@ -24,11 +24,11 @@ TOKENSTYLES {
 RULES {
 	Program ::= "Program" #1 name[] (!1"Variables" !1 variableDeclarations ("," #1 variableDeclarations)* ".")? 
 		body
-		"end" ".";
+		"End" ".";
 		
 	Block ::= (!1 statements)*;
 	
-	VariableDeclaration ::= variable ":=" (variableInitialization)?;
+	VariableDeclaration ::= variable (":=" variableInitialization)?;
 	Variable ::= name[];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
@@ -61,11 +61,11 @@ RULES {
 	
 	IfStatement ::= "If" "(" condition ")" "Then" thenBlock ("Else" elseBlock)? "End" ".";
 	
-	WhileLoop ::= "While" "(" condition ")" "Do" (body)? "End" ".";
+	WhileLoop ::= "While" "(" condition ")" "Do" body "End" ".";
 	
 	ComparisonExpression ::= leftHandSide 
 								comparisonOperator [EQUAL : "=", INEQUAL : "<>", LESS_THAN : "<", LESS_THAN_EQUAL: "<=", GREATER_THAN: ">", GREATER_THAN_EQUAL: ">="] 
 								rightHandSide;
 								
-	ForLoop ::= "For" counter ":=" lowerBound  (direction[UP : "Up", DOWN: "Down"]) "To" upperBound "Do" body "End" ".";
+	ForLoop ::= "For" counter (direction[UP : "Up", DOWN: "Down"])? "To" bound "Do" body "End" ".";
 }

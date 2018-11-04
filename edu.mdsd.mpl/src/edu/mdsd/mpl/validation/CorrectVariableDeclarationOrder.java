@@ -31,7 +31,12 @@ public class CorrectVariableDeclarationOrder extends AbstractModelConstraint {
 		Variable variable = reference.getVariable();
 		
 		VariableDeclaration declaration = (VariableDeclaration) variable.eContainer();
-		Program program = (Program) declaration.eContainer();
+		Program program = null;
+		if(declaration.eContainer() instanceof Program) {
+			program = (Program) declaration.eContainer();
+		} else {
+			return context.createSuccessStatus();
+		}
 		
 		List<VariableDeclaration> declarations = program.getVariableDeclarations();
 		int indexVariableDeclaration = declarations.indexOf(declaration);

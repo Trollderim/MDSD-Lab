@@ -22,7 +22,12 @@ public class UniqueVariableNamesConstraint extends AbstractModelConstraint {
 		String variableName = variable.getName();
 		
 		VariableDeclaration variableDeclaration = (VariableDeclaration) variable.eContainer();
-		Program program = (Program) variableDeclaration.eContainer();
+		Program program = null;
+		if(variableDeclaration.eContainer() instanceof Program) {
+			program = (Program) variableDeclaration.eContainer();
+		} else {
+			return context.createSuccessStatus();
+		}
 		
 		List<VariableDeclaration> variableDeclarations = program.getVariableDeclarations();
 		

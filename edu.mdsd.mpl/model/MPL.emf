@@ -50,14 +50,13 @@ class IfStatement extends Statement {
 
 class WhileLoop extends Statement {
   val ComparisonExpression[1] condition;
-  val Block body;
+  val Block[1] body;
 }
 
 class ForLoop extends Statement {
-  val Variable[1] counter;
-  val Variable[1] lowerBound;
-  val Variable[1] upperBound;
-  attr ForLoopDirection[1] direction = "UP";
+  val VariableDeclaration[1] counter;
+  val Expression[1] bound;
+  attr ForLoopDirection direction = "UP";
   val Block[1] body;
 }
 

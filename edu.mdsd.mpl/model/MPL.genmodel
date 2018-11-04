@@ -51,8 +51,7 @@
     </genClasses>
     <genClasses ecoreClass="MPL.ecore#//ForLoop">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ForLoop/counter"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ForLoop/lowerBound"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ForLoop/upperBound"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ForLoop/bound"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MPL.ecore#//ForLoop/direction"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MPL.ecore#//ForLoop/body"/>
     </genClasses>
