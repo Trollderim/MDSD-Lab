@@ -4,7 +4,7 @@ package mpl;
 class Program {
   attr String[1] name;
   val VariableDeclaration[*] variableDeclarations;
-  val Statement[*] statements;
+  val Block[1] body;
 }
 
 class VariableDeclaration {
@@ -58,6 +58,7 @@ class ForLoop extends Statement {
   val Variable[1] lowerBound;
   val Variable[1] upperBound;
   attr ForLoopDirection[1] direction = "UP";
+  val Block[1] body;
 }
 
 abstract class Expression {
