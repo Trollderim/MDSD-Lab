@@ -16,12 +16,48 @@ class Variable {
   attr String[1] name;
 }
 
+class Block {
+  val Statement[*] statements;
+}
+
+enum ComparisonOperator {
+  EQUAL = 0;
+  INEQUAL = 1;
+  LESS_THAN = 2;
+  LESS_THAN_EQUAL = 3;
+  GREATER_THAN = 4;
+  GREATER_THAN_EQUAL = 5;
+}
+
+enum ForLoopDirection {
+  UP = 0;
+  DOWN = 1;
+}
+
 abstract class Statement {
 }
 
 class Assignment extends Statement {
   val Expression[1] rightHandSide;
   val VariableReference[1] leftHandSide;
+}
+
+class IfStatement extends Statement {
+  val ComparisonExpression[1] condition;
+  val Block[1] thenBlock;
+  val Block elseBlock;
+}
+
+class WhileLoop extends Statement {
+  val ComparisonExpression[1] condition;
+  val Block body;
+}
+
+class ForLoop extends Statement {
+  val Variable[1] counter;
+  val Variable[1] lowerBound;
+  val Variable[1] upperBound;
+  attr ForLoopDirection[1] direction = "UP";
 }
 
 abstract class Expression {
@@ -40,6 +76,15 @@ class LiteralValue extends AtomicExpression {
 
 class VariableReference extends AtomicExpression {
   ref Variable[1] variable;
+}
+
+abstract class ConditionExpression extends Expression {
+}
+
+class ComparisonExpression extends ConditionExpression {
+  val Expression[1] leftHandSide;
+  attr ComparisonOperator[1] comparisonOperator;
+  val Expression[1] rightHandSide;
 }
 
 abstract class ArithmeticExpression extends Expression {

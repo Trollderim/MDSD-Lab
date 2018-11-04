@@ -17,12 +17,52 @@
   <eClassifiers xsi:type="ecore:EClass" name="Variable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Block">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//Statement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComparisonOperator">
+    <eLiterals name="EQUAL"/>
+    <eLiterals name="INEQUAL" value="1"/>
+    <eLiterals name="LESS_THAN" value="2"/>
+    <eLiterals name="LESS_THAN_EQUAL" value="3"/>
+    <eLiterals name="GREATER_THAN" value="4"/>
+    <eLiterals name="GREATER_THAN_EQUAL" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ForLoopDirection">
+    <eLiterals name="UP"/>
+    <eLiterals name="DOWN" value="1"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Statement" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rightHandSide" lowerBound="1"
         eType="#//Expression" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="leftHandSide" lowerBound="1"
         eType="#//VariableReference" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfStatement" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="#//ComparisonExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="thenBlock" lowerBound="1"
+        eType="#//Block" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elseBlock" eType="#//Block"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WhileLoop" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" lowerBound="1"
+        eType="#//ComparisonExpression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//Block"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ForLoop" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="counter" lowerBound="1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lowerBound" lowerBound="1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="upperBound" lowerBound="1"
+        eType="#//Variable" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1"
+        eType="#//ForLoopDirection" defaultValueLiteral="UP"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExpressionStatement" eSuperTypes="#//Statement">
@@ -37,6 +77,16 @@
   <eClassifiers xsi:type="ecore:EClass" name="VariableReference" eSuperTypes="#//AtomicExpression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
         eType="#//Variable"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionExpression" abstract="true"
+      eSuperTypes="#//Expression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComparisonExpression" eSuperTypes="#//ConditionExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leftHandSide" lowerBound="1"
+        eType="#//Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comparisonOperator" lowerBound="1"
+        eType="#//ComparisonOperator"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rightHandSide" lowerBound="1"
+        eType="#//Expression" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArithmeticExpression" abstract="true"
       eSuperTypes="#//Expression">
