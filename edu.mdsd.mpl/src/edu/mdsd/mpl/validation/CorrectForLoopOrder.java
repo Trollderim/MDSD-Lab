@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.validation.AbstractModelConstraint;
 import org.eclipse.emf.validation.IValidationContext;
 
+import edu.mdsd.mpl.Assignment;
 import edu.mdsd.mpl.Expression;
 import edu.mdsd.mpl.ForLoop;
 import edu.mdsd.mpl.ForLoopDirection;
@@ -19,8 +20,8 @@ public class CorrectForLoopOrder extends AbstractModelConstraint {
 	@Override
 	public IStatus validate(IValidationContext context) {
 		ForLoop forLoop = (ForLoop) context.getTarget();
-		VariableDeclaration declaration = forLoop.getCounter();
-		Expression initialization = declaration.getVariableInitialization();
+		Assignment assignment = forLoop.getCounter();
+		Expression initialization = assignment.getRightHandSide();
 		
 		Expression bound = forLoop.getBound();
 		

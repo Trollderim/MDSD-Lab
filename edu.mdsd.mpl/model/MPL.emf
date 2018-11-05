@@ -1,10 +1,32 @@
 @namespace(uri="http://mdsd.edu/mpl/1.0", prefix="mpl")
 package mpl;
 
-class Program {
+class MPLModel {
+  val Program program;
+}
+
+abstract class FunctionalUnit {
   attr String[1] name;
   val VariableDeclaration[*] variableDeclarations;
   val Block[1] body;
+}
+
+class Program extends FunctionalUnit {
+}
+
+abstract class Operation extends FunctionalUnit {
+  val Variable[*] parameters;
+}
+
+class Function extends Operation {
+  val ReturnStatement returnStatement;
+}
+
+class ReturnStatement {
+  val Expression[1] value;
+}
+
+class Procedure extends Operation {
 }
 
 class VariableDeclaration {
@@ -54,10 +76,14 @@ class WhileLoop extends Statement {
 }
 
 class ForLoop extends Statement {
-  val VariableDeclaration[1] counter;
+  val Assignment[1] counter;
   val Expression[1] bound;
   attr ForLoopDirection direction = "UP";
   val Block[1] body;
+}
+
+class Trace extends Statement {
+  val VariableReference[1] varToPrint;
 }
 
 abstract class Expression {
@@ -112,5 +138,10 @@ class UnaryMinusExpression extends UnaryExpression {
 }
 
 class ParenthesisExpression extends UnaryExpression {
+}
+
+abstract class OperationExpression {
+  val Operation[1] operation;
+  val Expression[*] parameters;
 }
 

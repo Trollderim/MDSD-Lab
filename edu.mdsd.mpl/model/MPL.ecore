@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mpl" nsURI="http://mdsd.edu/mpl/1.0" nsPrefix="mpl">
-  <eClassifiers xsi:type="ecore:EClass" name="Program">
+  <eClassifiers xsi:type="ecore:EClass" name="MPLModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="program" eType="#//Program"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FunctionalUnit" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variableDeclarations" upperBound="-1"
         eType="#//VariableDeclaration" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Block"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Program" eSuperTypes="#//FunctionalUnit"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" abstract="true" eSuperTypes="#//FunctionalUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//Operation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnStatement" eType="#//ReturnStatement"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnStatement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Procedure" eSuperTypes="#//Operation"/>
   <eClassifiers xsi:type="ecore:EClass" name="VariableDeclaration">
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
         eType="#//Variable" containment="true"/>
@@ -56,13 +74,17 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForLoop" eSuperTypes="#//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="counter" lowerBound="1"
-        eType="#//VariableDeclaration" containment="true"/>
+        eType="#//Assignment" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bound" lowerBound="1" eType="#//Expression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//ForLoopDirection"
         defaultValueLiteral="UP"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//Block"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trace" eSuperTypes="#//Statement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="varToPrint" lowerBound="1"
+        eType="#//VariableReference" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExpressionStatement" eSuperTypes="#//Statement">
@@ -105,4 +127,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnaryMinusExpression" eSuperTypes="#//UnaryExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="ParenthesisExpression" eSuperTypes="#//UnaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationExpression" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operation" lowerBound="1"
+        eType="#//Operation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Expression" containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>
