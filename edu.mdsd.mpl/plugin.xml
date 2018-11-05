@@ -60,6 +60,22 @@
                      class="VariableReference">
                </target>
             </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.CorrectForLoopOrder"
+                  id="edu.mdsd.mpl.validation.CorrectForLoopOrder"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="CorrectForLoopOrder"
+                  severity="ERROR"
+                  statusCode="1">
+               <message>
+                  For loop indices have to be in the correct order
+               </message>
+               <target
+                     class="ForLoop">
+               </target>
+            </constraint>
          </constraints>
       </constraintProvider>
    </extension>
