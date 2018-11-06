@@ -1,12 +1,14 @@
 package edu.mdsd.mpl.validation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.validation.AbstractModelConstraint;
 import org.eclipse.emf.validation.IValidationContext;
 
-import edu.mdsd.mpl.Program;
+import edu.mdsd.mpl.FunctionalUnit;
+import edu.mdsd.mpl.Operation;
 import edu.mdsd.mpl.Variable;
 import edu.mdsd.mpl.VariableDeclaration;
 
@@ -21,18 +23,19 @@ public class UniqueVariableNamesConstraint extends AbstractModelConstraint {
 		Variable variable = (Variable) context.getTarget();
 		String variableName = variable.getName();
 		
-		VariableDeclaration variableDeclaration = (VariableDeclaration) variable.eContainer();
-		Program program = null;
-		if(variableDeclaration.eContainer() instanceof Program) {
-			program = (Program) variableDeclaration.eContainer();
-		} else {
+		List<Variable> variables = new ArrayList<>();
+		
+		if(variable.eContainer() instanceof VariableDeclaration) {
+			VariableDeclaration declaration = (VariableDeclaration) variable.eContainer();
+			
+			variables.addAll(extractVariablesFromDeclaration(declaration));
+		}
+		
+		if(variables.isEmpty()) {
 			return context.createSuccessStatus();
 		}
 		
-		List<VariableDeclaration> variableDeclarations = program.getVariableDeclarations();
-		
-		for(VariableDeclaration otherVariableDeclaration : variableDeclarations) {
-			Variable otherVariable = otherVariableDeclaration.getVariable();
+		for(Variable otherVariable : variables) {
 			String otherVariableName = otherVariable.getName();
 			
 			if(variable != otherVariable) {
@@ -45,4 +48,29 @@ public class UniqueVariableNamesConstraint extends AbstractModelConstraint {
 		return context.createSuccessStatus();
 	}
 
+	List<Variable> extractVariablesFromDeclaration(VariableDeclaration declaration) {
+		List<Variable> variables = new ArrayList<>();
+		
+		FunctionalUnit unit = null;
+		if(FunctionalUnit.class.isAssignableFrom(declaration.eContainer().getClass())) {
+			unit = (FunctionalUnit) declaration.eContainer();
+		} else {
+			return null;
+		}
+		
+		List<VariableDeclaration> variableDeclarations = unit.getVariableDeclarations();
+		
+		for(VariableDeclaration tempDeclaration : variableDeclarations) {
+			variables.add(tempDeclaration.getVariable());
+		}
+		
+		final boolean isOperation = Operation.class.isAssignableFrom(declaration.eContainer().getClass());
+		if(isOperation) {
+			Operation operation = (Operation) unit;
+			
+			variables.addAll(operation.getParameters());
+		}
+		
+		return variables;
+	}
 }

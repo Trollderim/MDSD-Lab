@@ -4,3 +4,9 @@ Program Example
 	Trace(a).
 	Trace(b).
 End.
+
+Function Temp(a)
+	Variables b.
+	
+	a := 1.
+End.

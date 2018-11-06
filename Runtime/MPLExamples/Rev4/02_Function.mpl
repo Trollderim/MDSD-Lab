@@ -1,12 +1,12 @@
 Program Example
 	Variables a := 4, a2, b, c.
 
-	b := F().
+	/*b := F().
 	a2 := Sqr(a).
 	
 	c := F() + Sqr(b).
 	
-	M(a, b).
+	M(a, b). */
 	
 	Trace(a).
 	Trace(b).

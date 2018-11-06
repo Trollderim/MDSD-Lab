@@ -2,7 +2,9 @@
 package mpl;
 
 class MPLModel {
-  val Program program;
+  val Program[1] program;
+  val Function[*] functions;
+  val Procedure[*] procedures;
 }
 
 abstract class FunctionalUnit {
@@ -82,6 +84,11 @@ class ForLoop extends Statement {
   val Block[1] body;
 }
 
+class ProcedureCall extends Statement {
+  ref Procedure[1] procedure;
+  val Expression[*] parameters;
+}
+
 class Trace extends Statement {
   val VariableReference[1] varToPrint;
 }
@@ -140,8 +147,8 @@ class UnaryMinusExpression extends UnaryExpression {
 class ParenthesisExpression extends UnaryExpression {
 }
 
-abstract class OperationExpression {
-  val Operation[1] operation;
+class FunctionCall extends Expression {
+  ref Function[1] function;
   val Expression[*] parameters;
 }
 

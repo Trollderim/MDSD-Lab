@@ -1,6 +1,6 @@
 SYNTAXDEF mpl
 FOR <http://mdsd.edu/mpl/1.0>
-START Program
+START MPLModel
 
 OPTIONS {
 	reloadGeneratorModel = "true";
@@ -22,7 +22,20 @@ TOKENSTYLES {
 }
 
 RULES {
+	MPLModel ::= program (!1 (functions | procedures)*)?;
+	
 	Program ::= "Program" #1 name[] (!1"Variables" !1 variableDeclarations ("," #1 variableDeclarations)* ".")? 
+		body
+		"End" ".";
+		
+	Function ::= "Function" #1 name[] "(" (!1 parameters ("," #1 parameters)*)? ")"
+		(!1"Variables" !1 variableDeclarations ("," #1 variableDeclarations)* ".")?
+		body
+		returnStatement?
+		"End" ".";
+		
+	Procedure ::= "Procedure" #1 name[] "(" (!1 parameters ("," #1 parameters)*)? ")"
+		(!1"Variables" !1 variableDeclarations ("," #1 variableDeclarations)* ".")?
 		body
 		"End" ".";
 		
@@ -30,6 +43,8 @@ RULES {
 	
 	VariableDeclaration ::= variable (":=" variableInitialization)?;
 	Variable ::= name[];
+	
+	ReturnStatement ::= "Return" value ".";
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
 	VariableReference ::= variable[];
@@ -68,4 +83,10 @@ RULES {
 								rightHandSide;
 								
 	ForLoop ::= "For" counter (direction[UP : "Up", DOWN: "Down"])? "To" bound "Do" body "End" ".";
+	
+	FunctionCall ::= function[] "(" (!1 parameters ("," #1 parameters)*)?  ")";
+	
+	ProcedureCall ::= procedure[] "(" (!1 parameters ("," #1 parameters)*)?  ")";
+	
+	Trace ::= "Trace" "(" varToPrint ")" ".";
 }
