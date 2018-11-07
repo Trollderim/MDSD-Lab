@@ -1,12 +1,13 @@
 Program Example
-	Variables a := 4, b.
+	Variables a := 4, bla.
 	
 	Trace(a).
-	Trace(b).
+	Trace(bla).
 End.
 
 Function Temp(a)
-	Variables b.
+	Variables bla.
 	
 	a := 1.
+	bla := 2.
 End.

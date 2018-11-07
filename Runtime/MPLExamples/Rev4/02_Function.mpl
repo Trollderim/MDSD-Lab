@@ -35,7 +35,7 @@ Function Fac(a)
 		Return 1.
 	End.
 	
-	Return a * Fac(a - 1).
+	//Return a * Fac(a - 1).
 End.
 
 Function F2(a)

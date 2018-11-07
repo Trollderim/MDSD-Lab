@@ -24,7 +24,7 @@ class Function extends Operation {
   val ReturnStatement returnStatement;
 }
 
-class ReturnStatement {
+class ReturnStatement extends Statement {
   val Expression[1] value;
 }
 
