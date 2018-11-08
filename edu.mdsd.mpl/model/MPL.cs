@@ -22,29 +22,29 @@ TOKENSTYLES {
 }
 
 RULES {
-	MPLModel ::= program (!1 (functions | procedures)*)?;
+	MPLModel ::= program !1 (operations)*;
 	
 	Program ::= "Program" #1 name[] (!1"Variables" !1 variableDeclarations ("," #1 variableDeclarations)* ".")? 
-		body
+		functionalBody
 		"End" ".";
 		
 	Function ::= "Function" #1 name[] "(" (!1 parameters ("," #1 parameters)*)? ")"
 		(!1"Variables" !1 variableDeclarations ("," #1 variableDeclarations)* ".")?
-		body
-		returnStatement?
+		functionalBody
 		"End" ".";
 		
 	Procedure ::= "Procedure" #1 name[] "(" (!1 parameters ("," #1 parameters)*)? ")"
 		(!1"Variables" !1 variableDeclarations ("," #1 variableDeclarations)* ".")?
-		body
+		functionalBody
 		"End" ".";
 		
 	Block ::= (!1 statements)*;
 	
+	@Operator(type="primitive", weight="5", superclass="Expression")
+	OperationExpression ::= operation[] "(" (!1 parameters ("," #1 parameters)*)? ")";
+	
 	VariableDeclaration ::= variable (":=" variableInitialization)?;
 	Variable ::= name[];
-	
-	ReturnStatement ::= "Return" value ".";
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
 	VariableReference ::= variable[];
@@ -70,6 +70,7 @@ RULES {
 	@Operator(type="primitive", weight="5", superclass="Expression")
 	ParenthesisExpression ::= "(" operand ")";
 	
+//	@Operator(type="primitive", weight="5", superclass="Statement")
 	Assignment ::= leftHandSide #1 ":=" #1 rightHandSide ".";
 	
 	ExpressionStatement ::= expression ".";
@@ -84,9 +85,8 @@ RULES {
 								
 	ForLoop ::= "For" counter (direction[UP : "Up", DOWN: "Down"])? "To" bound "Do" body "End" ".";
 	
-	FunctionCall ::= function[] "(" (!1 parameters ("," #1 parameters)*)?  ")";
-	
-	ProcedureCall ::= procedure[] "(" (!1 parameters ("," #1 parameters)*)?  ")";
-	
+//	@Operator(type="primitive", weight="5", superclass="Statement")
 	Trace ::= "Trace" "(" varToPrint ")" ".";
+	
+	ReturnStatement ::= "Return" returnValue? ".";
 }

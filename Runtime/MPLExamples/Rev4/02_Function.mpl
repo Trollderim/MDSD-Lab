@@ -1,12 +1,12 @@
 Program Example
 	Variables a := 4, a2, b, c.
 
-	/*b := F().
+	b := F().
 	a2 := Sqr(a).
 	
 	c := F() + Sqr(b).
 	
-	M(a, b). */
+	M(a, b).
 	
 	Trace(a).
 	Trace(b).
@@ -35,7 +35,7 @@ Function Fac(a)
 		Return 1.
 	End.
 	
-	//Return a * Fac(a - 1).
+	Return a * Fac(a - 1).
 End.
 
 Function F2(a)
@@ -89,3 +89,4 @@ Function F4b(a)
 		Return 5.
 	End.
 End.
+

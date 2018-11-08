@@ -14,7 +14,6 @@ import edu.mdsd.mpl.Expression;
 import edu.mdsd.mpl.Program;
 import edu.mdsd.mpl.Variable;
 import edu.mdsd.mpl.VariableDeclaration;
-import edu.mdsd.mpl.VariableInitialization;
 import edu.mdsd.mpl.VariableReference;
 
 public class CorrectVariableDeclarationOrder extends AbstractModelConstraint {

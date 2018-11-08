@@ -3,14 +3,13 @@ package mpl;
 
 class MPLModel {
   val Program[1] program;
-  val Function[*] functions;
-  val Procedure[*] procedures;
+  val Operation[*] operations;
 }
 
 abstract class FunctionalUnit {
   attr String[1] name;
   val VariableDeclaration[*] variableDeclarations;
-  val Block[1] body;
+  val Block[1] functionalBody;
 }
 
 class Program extends FunctionalUnit {
@@ -21,11 +20,6 @@ abstract class Operation extends FunctionalUnit {
 }
 
 class Function extends Operation {
-  val ReturnStatement returnStatement;
-}
-
-class ReturnStatement extends Statement {
-  val Expression[1] value;
 }
 
 class Procedure extends Operation {
@@ -84,13 +78,12 @@ class ForLoop extends Statement {
   val Block[1] body;
 }
 
-class ProcedureCall extends Statement {
-  ref Procedure[1] procedure;
-  val Expression[*] parameters;
-}
-
 class Trace extends Statement {
   val VariableReference[1] varToPrint;
+}
+
+class ReturnStatement extends Statement {
+  val Expression returnValue;
 }
 
 abstract class Expression {
@@ -111,10 +104,7 @@ class VariableReference extends AtomicExpression {
   ref Variable[1] variable;
 }
 
-abstract class ConditionExpression extends Expression {
-}
-
-class ComparisonExpression extends ConditionExpression {
+class ComparisonExpression {
   val Expression[1] leftHandSide;
   attr ComparisonOperator[1] comparisonOperator;
   val Expression[1] rightHandSide;
@@ -147,8 +137,8 @@ class UnaryMinusExpression extends UnaryExpression {
 class ParenthesisExpression extends UnaryExpression {
 }
 
-class FunctionCall extends Expression {
-  ref Function[1] function;
+class OperationExpression extends Expression {
+  ref Operation[1] operation;
   val Expression[*] parameters;
 }
 
