@@ -9,7 +9,6 @@ import edu.mdsd.mpl.Expression;
 import edu.mdsd.mpl.ForLoop;
 import edu.mdsd.mpl.ForLoopDirection;
 import edu.mdsd.mpl.LiteralValue;
-import edu.mdsd.mpl.VariableDeclaration;
 
 public class CorrectForLoopOrder extends AbstractModelConstraint {
 

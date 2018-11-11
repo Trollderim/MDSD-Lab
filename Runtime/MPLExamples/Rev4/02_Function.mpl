@@ -13,6 +13,12 @@ Program Example
 End.
 
 Function F()
+	Return 1.
+End.
+
+Function F()
+	Variables a.
+	
 	//Body
 	Return 0.
 End.
@@ -22,6 +28,8 @@ Function Sqr(a)
 End.
 
 Function M(a, t)
+	Variables b := a.
+
 	Return a + (3 * t). 
 End.
 

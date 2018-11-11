@@ -76,6 +76,118 @@
                      class="ForLoop">
                </target>
             </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.CorrectProgramArgumentCount"
+                  id="edu.mdsd.mpl.validation.CorrectProgramArgumentCount"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="CorrectProgramArgumentCount"
+                  severity="ERROR"
+                  statusCode="1">
+               <message>
+                  Incorrect number of arguments.
+               </message>
+               <target
+                     class="OperationExpression">
+               </target>
+            </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.UniqueFunctionalUnitNamesConstraint"
+                  id="edu.mdsd.mpl.validation.UniqueFunctionalUnitNamesConstraint"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="UniqueFunctionalUnitNamesConstraint"
+                  severity="ERROR"
+                  statusCode="1">
+               <message>
+                  The name &quot;{0}&quot; is not unique
+               </message>
+               <target
+                     class="FunctionalUnit">
+               </target>
+            </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.CorrectReturnStatementUsage"
+                  id="edu.mdsd.mpl.validation.CorrectReturnStatementUsage"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="CorrectReturnStatementUsage"
+                  severity="ERROR"
+                  statusCode="1">
+               <message>
+                  Incorrect usage of Return Stamement
+               </message>
+               <target
+                     class="ReturnStatement">
+               </target>
+            </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.CorrectProcedureCallUsage"
+                  id="edu.mdsd.mpl.validation.CorrectProcedureCallUsage"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="CorrectProcedureCallUsage"
+                  severity="ERROR"
+                  statusCode="1">
+               <message>
+                  Incorrect place to call a procedures
+               </message>
+               <target
+                     class="OperationExpression">
+               </target>
+            </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.CorrectExpressionResultUsage"
+                  id="edu.mdsd.mpl.validation.CorrectExpressionResultUsage"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="CorrectExpressionResultUsage"
+                  severity="WARNING"
+                  statusCode="1">
+               <message>
+                  Discarding the results of an expression.
+               </message>
+               <target
+                     class="ExpressionStatement">
+               </target>
+            </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.CorrectReturnStatementOrder"
+                  id="edu.mdsd.mpl.validation.CorrectReturnStatementOrder"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="CorrectReturnStatementOrder"
+                  severity="WARNING"
+                  statusCode="1">
+               <message>
+                  Not reachable statement.
+               </message>
+               <target
+                     class="Statement">
+               </target>
+            </constraint>
+            <constraint
+                  class="edu.mdsd.mpl.validation.CorrectReturnStatementCount"
+                  id="edu.mdsd.mpl.validation.CorrectReturnStatementCount"
+                  isEnabledByDefault="true"
+                  lang="Java"
+                  mode="Batch"
+                  name="CorrectReturnStatementCount"
+                  severity="ERROR"
+                  statusCode="1">
+               <message>
+                  No return statement specified for function.
+               </message>
+               <target
+                     class="Function">
+               </target>
+            </constraint>
          </constraints>
       </constraintProvider>
    </extension>
