@@ -10,4 +10,6 @@ Function Temp(a)
 	
 	a := 1.
 	bla := 2.
+	
+	Return bla.
 End.

@@ -1,9 +1,9 @@
 package edu.mdsd.mpl.validation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.validation.AbstractModelConstraint;
 import org.eclipse.emf.validation.IValidationContext;
 
@@ -38,7 +38,9 @@ public class CorrectReturnStatementCount extends AbstractModelConstraint {
 		return context.createSuccessStatus();
 	}
 	
-	public List<Statement> collectAllStatements(final List<Statement> statements) {		
+	public List<Statement> collectAllStatements(final List<Statement> statementsParam) {		
+		List<Statement> statements = new ArrayList<Statement>(statementsParam);
+		
 		for(int i = 0; i < statements.size(); i++) {
 			Statement statement = statements.get(i);
 			
