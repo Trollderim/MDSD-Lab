@@ -1,6 +1,6 @@
-lod 10
-sto a
 lod 5
+sto a
+lod 10
 lod a
-sub
+div
 sto f

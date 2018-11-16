@@ -7,12 +7,16 @@ import java.util.Map.Entry;
 import java.util.Stack;
 
 import edu.mdsd.mil.AddInstruction;
+import edu.mdsd.mil.ArithmeticInstruction;
 import edu.mdsd.mil.ConstantInteger;
+import edu.mdsd.mil.DivInstruction;
 import edu.mdsd.mil.Instruction;
 import edu.mdsd.mil.LoadInstruction;
 import edu.mdsd.mil.MILModel;
+import edu.mdsd.mil.MulInstruction;
 import edu.mdsd.mil.RegisterReference;
 import edu.mdsd.mil.StoreInstruction;
+import edu.mdsd.mil.SubInstruction;
 import edu.mdsd.mil.Value;
 
 public class MILInterpreter {
@@ -55,12 +59,9 @@ public class MILInterpreter {
 			return;
 		}
 		
-		if(instruction instanceof AddInstruction) {
-			int operand2 = popFromOperandStack();
-			int operand1 = popFromOperandStack();
-
-			int result = operand1 + operand2;
-			pushOnOperandStack(result);
+		if(instruction instanceof ArithmeticInstruction) {
+			interpretArithmeticInstruction((ArithmeticInstruction) instruction);
+			
 			return;
 		}
 		
@@ -94,6 +95,27 @@ public class MILInterpreter {
 		}
 		
 		throw new UnsupportedOperationException();
+	}
+	
+	private void interpretArithmeticInstruction(ArithmeticInstruction arithmeticInstruction) {
+		int operand2 = popFromOperandStack();
+		int operand1 = popFromOperandStack();
+
+		int result = 0;
+		
+		if(arithmeticInstruction instanceof AddInstruction) {
+			result = operand1 + operand2;
+		} else if (arithmeticInstruction instanceof SubInstruction) {
+			result = operand1 - operand2;
+		} else if (arithmeticInstruction instanceof MulInstruction) {
+			result = operand1 * operand2;
+		} else if (arithmeticInstruction instanceof DivInstruction) {
+			result = operand1 / operand2;
+		} else {
+			throw new UnsupportedOperationException();
+		}
+		
+		pushOnOperandStack(result);
 	}
 
 	private int popFromOperandStack() {

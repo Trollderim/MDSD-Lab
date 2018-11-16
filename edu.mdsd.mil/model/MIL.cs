@@ -30,6 +30,9 @@ RULES {
 	StoreInstruction ::= "sto" #1 registerReference?;
 	
 	AddInstruction ::= "add";
+	SubInstruction ::= "sub";
+	MulInstruction ::= "mul";
+	DivInstruction ::= "div";
 	
 	ConstantInteger ::= rawValue[INTEGER_TOKEN];
 	RegisterReference ::= address[];

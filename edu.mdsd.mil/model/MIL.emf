@@ -16,7 +16,19 @@ class StoreInstruction extends Instruction {
   val RegisterReference registerReference;
 }
 
-class AddInstruction extends Instruction {
+abstract class ArithmeticInstruction extends Instruction {
+}
+
+class AddInstruction extends ArithmeticInstruction {
+}
+
+class SubInstruction extends ArithmeticInstruction {
+}
+
+class MulInstruction extends ArithmeticInstruction {
+}
+
+class DivInstruction extends ArithmeticInstruction {
 }
 
 abstract class Value {
