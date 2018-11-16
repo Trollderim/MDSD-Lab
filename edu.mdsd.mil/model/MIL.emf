@@ -13,7 +13,7 @@ class LoadInstruction extends Instruction {
 }
 
 class StoreInstruction extends Instruction {
-  val RegisterReference[1] registerReference;
+  val RegisterReference registerReference;
 }
 
 class AddInstruction extends Instruction {

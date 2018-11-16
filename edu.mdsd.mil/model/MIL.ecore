@@ -11,8 +11,8 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StoreInstruction" eSuperTypes="#//Instruction">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="registerReference" lowerBound="1"
-        eType="#//RegisterReference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="registerReference" eType="#//RegisterReference"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AddInstruction" eSuperTypes="#//Instruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="Value" abstract="true"/>
