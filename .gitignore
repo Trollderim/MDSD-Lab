@@ -85,3 +85,6 @@ xtend-gen/
 org.emftext.commons.antlr3_4_0/
 edu.mdsd.mpl.resource.mpl.ui
 edu.mdsd.mpl.resource.mpl
+
+edu.mdsd.mil.resource.mil
+edu.mdsd.mil.resource.mil.ui/

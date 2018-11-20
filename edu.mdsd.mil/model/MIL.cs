@@ -34,6 +34,21 @@ RULES {
 	MulInstruction ::= "mul";
 	DivInstruction ::= "div";
 	
+	NegateInstruction ::= "neg";
+	
+	ConditionalJumpInstruction ::= "jpc";
+	UnconditionalJumpInstruction ::= "jmp";
+	
+	EqualInstruction ::= "eq";
+	NotEqualInstruction ::= "neq";
+	LessThanInstruction ::= "lt";
+	LessThanEqualInstruction ::= "leq";
+	GreaterThanInstruction ::= "gt";
+	GreaterThanEqualInstruction ::= "geq";
+	
+	YieldInstruciton ::= "yld";
+	PrintInstruction ::= "prt" output[];
+	
 	ConstantInteger ::= rawValue[INTEGER_TOKEN];
 	RegisterReference ::= address[];
 }

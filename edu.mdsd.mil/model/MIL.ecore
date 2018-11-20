@@ -14,6 +14,24 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="registerReference" eType="#//RegisterReference"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NegateInstruction" eSuperTypes="#//Instruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JumpInstruction" abstract="true" eSuperTypes="#//Instruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnconditionalJumpInstruction" eSuperTypes="#//JumpInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionalJumpInstruction" eSuperTypes="#//JumpInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompareInstruction" abstract="true"
+      eSuperTypes="#//Instruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EqualInstruction" eSuperTypes="#//CompareInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NotEqualInstruction" eSuperTypes="#//CompareInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LessThanInstruction" eSuperTypes="#//CompareInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LessThanEqualInstruction" eSuperTypes="#//CompareInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GreaterThanInstruction" eSuperTypes="#//CompareInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GreaterThanEqualInstruction" eSuperTypes="#//CompareInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OutputInstruction" abstract="true" eSuperTypes="#//Instruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="YieldInstruciton" eSuperTypes="#//OutputInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PrintInstruction" eSuperTypes="#//OutputInstruction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="output" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ArithmeticInstruction" abstract="true"
       eSuperTypes="#//Instruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="AddInstruction" eSuperTypes="#//ArithmeticInstruction"/>

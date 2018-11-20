@@ -18,6 +18,22 @@
     <genClasses ecoreClass="MIL.ecore#//StoreInstruction">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MIL.ecore#//StoreInstruction/registerReference"/>
     </genClasses>
+    <genClasses ecoreClass="MIL.ecore#//NegateInstruction"/>
+    <genClasses image="false" ecoreClass="MIL.ecore#//JumpInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//UnconditionalJumpInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//ConditionalJumpInstruction"/>
+    <genClasses image="false" ecoreClass="MIL.ecore#//CompareInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//EqualInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//NotEqualInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//LessThanInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//LessThanEqualInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//GreaterThanInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//GreaterThanEqualInstruction"/>
+    <genClasses image="false" ecoreClass="MIL.ecore#//OutputInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//YieldInstruciton"/>
+    <genClasses ecoreClass="MIL.ecore#//PrintInstruction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MIL.ecore#//PrintInstruction/output"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="MIL.ecore#//ArithmeticInstruction"/>
     <genClasses ecoreClass="MIL.ecore#//AddInstruction"/>
     <genClasses ecoreClass="MIL.ecore#//SubInstruction"/>

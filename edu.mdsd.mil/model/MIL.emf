@@ -16,6 +16,49 @@ class StoreInstruction extends Instruction {
   val RegisterReference registerReference;
 }
 
+class NegateInstruction extends Instruction {
+}
+
+abstract class JumpInstruction extends Instruction {
+}
+
+class UnconditionalJumpInstruction extends JumpInstruction {
+}
+
+class ConditionalJumpInstruction extends JumpInstruction {
+}
+
+abstract class CompareInstruction extends Instruction {
+}
+
+class EqualInstruction extends CompareInstruction {
+}
+
+class NotEqualInstruction extends CompareInstruction {
+}
+
+class LessThanInstruction extends CompareInstruction {
+}
+
+class LessThanEqualInstruction extends CompareInstruction {
+}
+
+class GreaterThanInstruction extends CompareInstruction {
+}
+
+class GreaterThanEqualInstruction extends CompareInstruction {
+}
+
+abstract class OutputInstruction extends Instruction {
+}
+
+class YieldInstruciton extends OutputInstruction {
+}
+
+class PrintInstruction extends OutputInstruction {
+  attr String[1] output;
+}
+
 abstract class ArithmeticInstruction extends Instruction {
 }
 
