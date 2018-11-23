@@ -12,6 +12,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MIL.ecore#//MILModel/instructions"/>
     </genClasses>
     <genClasses image="false" ecoreClass="MIL.ecore#//Instruction"/>
+    <genClasses ecoreClass="MIL.ecore#//LabelInstruction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MIL.ecore#//LabelInstruction/name"/>
+    </genClasses>
     <genClasses ecoreClass="MIL.ecore#//LoadInstruction">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MIL.ecore#//LoadInstruction/value"/>
     </genClasses>
@@ -19,7 +22,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MIL.ecore#//StoreInstruction/registerReference"/>
     </genClasses>
     <genClasses ecoreClass="MIL.ecore#//NegateInstruction"/>
-    <genClasses image="false" ecoreClass="MIL.ecore#//JumpInstruction"/>
+    <genClasses image="false" ecoreClass="MIL.ecore#//JumpInstruction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MIL.ecore#//JumpInstruction/jumpTo"/>
+    </genClasses>
     <genClasses ecoreClass="MIL.ecore#//UnconditionalJumpInstruction"/>
     <genClasses ecoreClass="MIL.ecore#//ConditionalJumpInstruction"/>
     <genClasses image="false" ecoreClass="MIL.ecore#//CompareInstruction"/>

@@ -6,6 +6,9 @@
         eType="#//Instruction" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Instruction" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LabelInstruction" eSuperTypes="#//Instruction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LoadInstruction" eSuperTypes="#//Instruction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//Value"
         containment="true"/>
@@ -15,7 +18,10 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NegateInstruction" eSuperTypes="#//Instruction"/>
-  <eClassifiers xsi:type="ecore:EClass" name="JumpInstruction" abstract="true" eSuperTypes="#//Instruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JumpInstruction" abstract="true" eSuperTypes="#//Instruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jumpTo" lowerBound="1"
+        eType="#//LabelInstruction"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnconditionalJumpInstruction" eSuperTypes="#//JumpInstruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConditionalJumpInstruction" eSuperTypes="#//JumpInstruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompareInstruction" abstract="true"

@@ -1,5 +1,6 @@
 package edu.mdsd.mil.interpreter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,25 +9,42 @@ import java.util.Stack;
 
 import edu.mdsd.mil.AddInstruction;
 import edu.mdsd.mil.ArithmeticInstruction;
+import edu.mdsd.mil.CompareInstruction;
+import edu.mdsd.mil.ConditionalJumpInstruction;
 import edu.mdsd.mil.ConstantInteger;
 import edu.mdsd.mil.DivInstruction;
+import edu.mdsd.mil.EqualInstruction;
+import edu.mdsd.mil.GreaterThanEqualInstruction;
+import edu.mdsd.mil.GreaterThanInstruction;
 import edu.mdsd.mil.Instruction;
+import edu.mdsd.mil.JumpInstruction;
+import edu.mdsd.mil.LabelInstruction;
+import edu.mdsd.mil.LessThanEqualInstruction;
+import edu.mdsd.mil.LessThanInstruction;
 import edu.mdsd.mil.LoadInstruction;
 import edu.mdsd.mil.MILModel;
 import edu.mdsd.mil.MulInstruction;
+import edu.mdsd.mil.NegateInstruction;
+import edu.mdsd.mil.NotEqualInstruction;
+import edu.mdsd.mil.OutputInstruction;
+import edu.mdsd.mil.PrintInstruction;
 import edu.mdsd.mil.RegisterReference;
 import edu.mdsd.mil.StoreInstruction;
 import edu.mdsd.mil.SubInstruction;
+import edu.mdsd.mil.UnconditionalJumpInstruction;
 import edu.mdsd.mil.Value;
+import edu.mdsd.mil.YieldInstruciton;
 
 public class MILInterpreter {
 	private Stack<Integer> operandStack;
 	private int programCounter;
 	private Map<String, Integer> variableRegister;
+	private List<Instruction> instructions;
 	
 	public MILInterpreter() {
 		operandStack = new Stack<>();
 		variableRegister = new HashMap<>();
+		instructions = new ArrayList<>();
 	}
 	
 	protected void initialize() {
@@ -38,7 +56,7 @@ public class MILInterpreter {
 	public Map<String, Integer> interpret (MILModel milModel) {
 		initialize();
 		
-		List<Instruction> instructions = milModel.getInstructions();
+		instructions = milModel.getInstructions();
 		
 		while(programCounter < instructions.size()) {
 			Instruction instruction = instructions.get(programCounter);
@@ -79,7 +97,108 @@ public class MILInterpreter {
 			return;
 		}
 		
+		if(instruction instanceof CompareInstruction) {
+			CompareInstruction compareInstruction = (CompareInstruction) instruction;
+			interpretCompareInstruction(compareInstruction);
+			
+			return;
+		}
+		
+		if(instruction instanceof JumpInstruction) {			
+			interpretJumpInstruction((JumpInstruction) instruction);
+			
+			return;
+		}
+		
+		if(instruction instanceof NegateInstruction) {
+			boolean currentValue = popBooleanValueFromStack();
+			pushBooleanOnStack(!currentValue);
+			
+			return;
+		}
+		
+		if(instruction instanceof OutputInstruction) {
+			interpretPrintInstruction((OutputInstruction) instruction);
+			
+			return;
+		}
+		
+		if(instruction instanceof LabelInstruction) {
+			return;
+		}
+		
 		throw new UnsupportedOperationException();
+	}
+
+	private void interpretPrintInstruction(OutputInstruction instruction) {
+		if(instruction instanceof YieldInstruciton) {
+			int value = popFromOperandStack();
+			System.out.print(value);
+		} else if (instruction instanceof PrintInstruction) {
+			PrintInstruction print = (PrintInstruction) instruction;
+			System.out.print(print.getOutput());
+		} else {
+			throw new UnsupportedOperationException();
+		}
+		
+	}
+
+	private void interpretCompareInstruction(CompareInstruction instruction) {
+		int operand2 = popFromOperandStack();
+		int operand1 = popFromOperandStack();
+		
+		boolean result = false;
+		
+		if(instruction instanceof EqualInstruction) {
+			result = operand1 == operand2;
+		} else if (instruction instanceof NotEqualInstruction) {
+			result = operand1 != operand2;
+		} else if (instruction instanceof LessThanInstruction) {
+			result = operand1 < operand2;
+		} else if (instruction instanceof LessThanEqualInstruction) {
+			result = operand1 <= operand2;
+		} else if (instruction instanceof GreaterThanInstruction) {
+			result = operand1 > operand2;
+		} else if (instruction instanceof GreaterThanEqualInstruction) {
+			result = operand1 >= operand2;
+		} else {
+			throw new UnsupportedOperationException();
+		}
+		
+		pushBooleanOnStack(result);
+	}
+	
+
+	private void interpretJumpInstruction(JumpInstruction instruction) {
+		int indexToJumpTo = instructions.indexOf(instruction);
+		
+		if(instruction instanceof ConditionalJumpInstruction) {
+			boolean evaluation = popBooleanValueFromStack();
+			
+			if(evaluation) {
+				return;
+			}
+		}
+		
+		programCounter = indexToJumpTo + 1;
+	}
+	
+	private void pushBooleanOnStack(boolean value) {
+		if(value) {
+			pushOnOperandStack(1);
+		} else {
+			pushOnOperandStack(0);
+		}
+	}
+	
+	private boolean popBooleanValueFromStack() {
+		int value = popFromOperandStack();
+		
+		if (value == 0) {
+			return false;
+		}
+		
+		return true;
 	}
 
 	private int getRawValue(Value value) {

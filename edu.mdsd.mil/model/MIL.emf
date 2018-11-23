@@ -8,6 +8,10 @@ class MILModel {
 abstract class Instruction {
 }
 
+class LabelInstruction extends Instruction {
+  attr String[1] name;
+}
+
 class LoadInstruction extends Instruction {
   val Value[1] value;
 }
@@ -20,6 +24,7 @@ class NegateInstruction extends Instruction {
 }
 
 abstract class JumpInstruction extends Instruction {
+  ref LabelInstruction[1] jumpTo;
 }
 
 class UnconditionalJumpInstruction extends JumpInstruction {
