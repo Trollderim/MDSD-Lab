@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import edu.mdsd.mil.AddInstruction;
 import edu.mdsd.mil.ArithmeticInstruction;
+import edu.mdsd.mil.CallInstruction;
 import edu.mdsd.mil.CompareInstruction;
 import edu.mdsd.mil.ConditionalJumpInstruction;
 import edu.mdsd.mil.ConstantInteger;
@@ -29,6 +30,7 @@ import edu.mdsd.mil.NotEqualInstruction;
 import edu.mdsd.mil.OutputInstruction;
 import edu.mdsd.mil.PrintInstruction;
 import edu.mdsd.mil.RegisterReference;
+import edu.mdsd.mil.ReturnInstruction;
 import edu.mdsd.mil.StoreInstruction;
 import edu.mdsd.mil.SubInstruction;
 import edu.mdsd.mil.UnconditionalJumpInstruction;
@@ -37,20 +39,22 @@ import edu.mdsd.mil.YieldInstruciton;
 
 public class MILInterpreter {
 	private Stack<Integer> operandStack;
+	private Stack<StackFrame> callStack;
 	private int programCounter;
-	private Map<String, Integer> variableRegister;
 	private List<Instruction> instructions;
 	
 	public MILInterpreter() {
 		operandStack = new Stack<>();
-		variableRegister = new HashMap<>();
+		callStack = new Stack<>();
 		instructions = new ArrayList<>();
 	}
 	
 	protected void initialize() {
 		operandStack.clear();
+		callStack.clear();
 		programCounter = 0;
-		variableRegister.clear();
+		
+		callStack.push(new StackFrame(0));
 	}
 	
 	public Map<String, Integer> interpret (MILModel milModel) {
@@ -65,7 +69,7 @@ public class MILInterpreter {
 			interpretInstruction(instruction);
 		}
 		
-		return variableRegister;
+		return callStack.peek().getVariableRegister();
 	}
 	
 	protected void interpretInstruction(Instruction instruction) {
@@ -91,7 +95,9 @@ public class MILInterpreter {
 			
 			if(registerReference != null) {
 				String address = registerReference.getAddress();
-				setVariableRegisterValue(address, rawValue);
+				
+				
+				callStack.peek().setVariableRegisterValue(address, rawValue);
 			}
 			
 			return;
@@ -124,6 +130,23 @@ public class MILInterpreter {
 		}
 		
 		if(instruction instanceof LabelInstruction) {
+			return;
+		}
+		
+		if(instruction instanceof CallInstruction) {
+			CallInstruction callInstruction = (CallInstruction) instruction;
+			
+			StackFrame newStackFrame = new StackFrame(programCounter);
+			callStack.push(newStackFrame);
+			programCounter = instructions.indexOf(callInstruction.getOperationName());
+			
+			return;
+		}
+		
+		if(instruction instanceof ReturnInstruction) {
+			StackFrame oldStackFrame = callStack.pop();
+			programCounter = oldStackFrame.getReturnAddress();
+			
 			return;
 		}
 		
@@ -170,7 +193,7 @@ public class MILInterpreter {
 	
 
 	private void interpretJumpInstruction(JumpInstruction instruction) {
-		int indexToJumpTo = instructions.indexOf(instruction);
+		int indexToJumpTo = instructions.indexOf(instruction.getJumpTo());
 		
 		if(instruction instanceof ConditionalJumpInstruction) {
 			boolean evaluation = popBooleanValueFromStack();
@@ -210,7 +233,7 @@ public class MILInterpreter {
 		if(value instanceof RegisterReference) {
 			RegisterReference registerReference = (RegisterReference) value;
 			String address = registerReference.getAddress();
-			return getVariableRegisterValue(address);
+			return callStack.peek().getVariableRegisterValue(address);
 		}
 		
 		throw new UnsupportedOperationException();
@@ -243,18 +266,6 @@ public class MILInterpreter {
 	
 	private void pushOnOperandStack(int rawValue) {
 		operandStack.push(rawValue);
-	}
-	
-	private int getVariableRegisterValue(String address) {
-		if(!variableRegister.containsKey(address)) {
-			variableRegister.put(address, 0);
-		}
-		
-		return variableRegister.get(address);
-	}
-	
-	private void setVariableRegisterValue(String address, int rawValue) {
-		variableRegister.put(address, rawValue);
 	}
 	
 	public void interpretAndOutputResult(MILModel milModel) {

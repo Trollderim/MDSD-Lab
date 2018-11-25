@@ -79,6 +79,13 @@ class MulInstruction extends ArithmeticInstruction {
 class DivInstruction extends ArithmeticInstruction {
 }
 
+class CallInstruction extends Instruction {
+  ref LabelInstruction[1] operationName;
+}
+
+class ReturnInstruction extends Instruction {
+}
+
 abstract class Value {
 }
 

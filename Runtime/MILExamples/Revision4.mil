@@ -1,0 +1,28 @@
+//Example
+lod 10
+sto a
+lod 0
+sto f
+lod a
+cal Fac
+
+sto f
+jmp EndProgram
+
+Fac:
+sto a2
+//If Then
+
+lod a2
+lod 0
+lt
+jpc EndIf
+
+lod 0
+ret
+
+EndIf:
+lod 5
+ret
+
+EndProgram:

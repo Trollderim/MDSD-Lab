@@ -53,6 +53,9 @@ RULES {
 	YieldInstruciton ::= "yld";
 	PrintInstruction ::= "prt" output[STRING_TOKEN];
 	
+	CallInstruction ::= "cal" operationName[];
+	ReturnInstruction ::= "ret";
+	
 	ConstantInteger ::= rawValue[INTEGER_TOKEN];
 	RegisterReference ::= address[];
 }

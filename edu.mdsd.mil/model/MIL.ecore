@@ -44,6 +44,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="SubInstruction" eSuperTypes="#//ArithmeticInstruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="MulInstruction" eSuperTypes="#//ArithmeticInstruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="DivInstruction" eSuperTypes="#//ArithmeticInstruction"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CallInstruction" eSuperTypes="#//Instruction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operationName" lowerBound="1"
+        eType="#//LabelInstruction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReturnInstruction" eSuperTypes="#//Instruction"/>
   <eClassifiers xsi:type="ecore:EClass" name="Value" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConstantInteger" eSuperTypes="#//Value">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rawValue" lowerBound="1"

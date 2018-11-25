@@ -44,6 +44,10 @@
     <genClasses ecoreClass="MIL.ecore#//SubInstruction"/>
     <genClasses ecoreClass="MIL.ecore#//MulInstruction"/>
     <genClasses ecoreClass="MIL.ecore#//DivInstruction"/>
+    <genClasses ecoreClass="MIL.ecore#//CallInstruction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MIL.ecore#//CallInstruction/operationName"/>
+    </genClasses>
+    <genClasses ecoreClass="MIL.ecore#//ReturnInstruction"/>
     <genClasses image="false" ecoreClass="MIL.ecore#//Value"/>
     <genClasses ecoreClass="MIL.ecore#//ConstantInteger">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MIL.ecore#//ConstantInteger/rawValue"/>
