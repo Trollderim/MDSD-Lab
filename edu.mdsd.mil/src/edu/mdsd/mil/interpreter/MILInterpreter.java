@@ -96,7 +96,6 @@ public class MILInterpreter {
 			if(registerReference != null) {
 				String address = registerReference.getAddress();
 				
-				
 				callStack.peek().setVariableRegisterValue(address, rawValue);
 			}
 			
@@ -104,8 +103,7 @@ public class MILInterpreter {
 		}
 		
 		if(instruction instanceof CompareInstruction) {
-			CompareInstruction compareInstruction = (CompareInstruction) instruction;
-			interpretCompareInstruction(compareInstruction);
+			interpretCompareInstruction((CompareInstruction) instruction);
 			
 			return;
 		}
@@ -159,11 +157,11 @@ public class MILInterpreter {
 			System.out.print(value);
 		} else if (instruction instanceof PrintInstruction) {
 			PrintInstruction print = (PrintInstruction) instruction;
-			System.out.print(print.getOutput());
+			String output = StringInterpreter.interpretStringWithControlSecuence(print.getOutput());
+			System.out.print(output);
 		} else {
 			throw new UnsupportedOperationException();
 		}
-		
 	}
 
 	private void interpretCompareInstruction(CompareInstruction instruction) {
