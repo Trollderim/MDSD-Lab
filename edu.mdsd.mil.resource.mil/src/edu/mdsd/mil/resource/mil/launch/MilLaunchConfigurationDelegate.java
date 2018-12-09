@@ -36,6 +36,8 @@ public class MilLaunchConfigurationDelegate extends LaunchConfigurationDelegate 
 		
 		MILModel milModel = (MILModel) helper.getModelRoot(configuration);
 		interpreter.interpretAndOutputResult(milModel);
+		
+		
 	}
 	
 }
