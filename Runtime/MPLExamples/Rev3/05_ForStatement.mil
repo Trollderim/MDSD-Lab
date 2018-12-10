@@ -1,0 +1,25 @@
+lod 4
+sto a
+lod 0
+sto b
+lod 1
+sto c
+lod 1
+sto b
+headFor_5941a11041b94585bdf1760cc3ead15a:
+lod b
+lod 10
+leq
+jpc endFor_5941a11041b94585bdf1760cc3ead15a
+lod c
+lod b
+lod 5
+mul
+add
+sto c
+lod 1
+lod b
+add
+sto b
+jmp headFor_5941a11041b94585bdf1760cc3ead15a
+endFor_5941a11041b94585bdf1760cc3ead15a:

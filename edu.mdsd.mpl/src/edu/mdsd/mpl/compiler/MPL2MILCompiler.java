@@ -30,6 +30,8 @@ import edu.mdsd.mpl.ComparisonOperator;
 import edu.mdsd.mpl.DivExpression;
 import edu.mdsd.mpl.Expression;
 import edu.mdsd.mpl.ExpressionStatement;
+import edu.mdsd.mpl.ForLoop;
+import edu.mdsd.mpl.ForLoopDirection;
 import edu.mdsd.mpl.IfStatement;
 import edu.mdsd.mpl.LiteralValue;
 import edu.mdsd.mpl.MPLModel;
@@ -41,6 +43,7 @@ import edu.mdsd.mpl.SubExpression;
 import edu.mdsd.mpl.Variable;
 import edu.mdsd.mpl.VariableDeclaration;
 import edu.mdsd.mpl.VariableReference;
+import edu.mdsd.mpl.WhileLoop;
 import edu.mdsd.mpl.util.MILCreationUtil;
 
 public class MPL2MILCompiler {
@@ -133,9 +136,21 @@ public class MPL2MILCompiler {
 			return;
 		}
 		
+		if(statement instanceof ForLoop) {
+			ForLoop forLoop = (ForLoop) statement;
+			compileForLoop(forLoop);
+			return;
+		}
+		
+		if(statement instanceof WhileLoop) {
+			WhileLoop whileLoop = (WhileLoop) statement;
+			compileWhileLoop(whileLoop);
+			return;
+		}
+		
 		throw new UnsupportedOperationException();
 	}
-	
+
 	private void compileIfStatement(IfStatement ifStatement) {
 		String uniqueID = createUniqueIdentifier();
 		String endifMarker = "endif_" + uniqueID;
@@ -153,6 +168,8 @@ public class MPL2MILCompiler {
 		addJumpLabel(endifLabel);
 	}
 	
+	
+	
 	private String createUniqueIdentifier() {
 		return UUID.randomUUID().toString().replace("-", "");
 	}
@@ -162,6 +179,63 @@ public class MPL2MILCompiler {
 		compileExpression(condition.getRightHandSide());
 		
 		addComparisonInstruction(condition.getComparisonOperator());
+	}
+	
+	private void compileForLoop(ForLoop forLoop) {
+		String uniqueID = createUniqueIdentifier();
+		String headMarker = "headFor_" + uniqueID;
+		String endForMarker = "endFor_" + uniqueID;
+		
+		LabelInstruction headLabel = MILCreationUtil.createLabelInstruction(headMarker);
+		LabelInstruction endForLabel = MILCreationUtil.createLabelInstruction(endForMarker);
+		
+		compileAssignment(forLoop.getCounter());	
+		addJumpLabel(headLabel);
+		addLoadInstruction(forLoop.getCounter().getLeftHandSide().getVariable());
+		compileExpression(forLoop.getBound());
+		
+		if(forLoop.getDirection() == ForLoopDirection.UP) {
+			addComparisonInstruction(ComparisonOperator.LESS_THAN_EQUAL);
+		} else {
+			addComparisonInstruction(ComparisonOperator.GREATER_THAN_EQUAL);
+		}
+		
+		addConditionalJumpInstruction(endForLabel);
+		compileBlock(forLoop.getBody());
+		
+		incrementCounter(forLoop);
+		
+		addUnconditionalJumpInstruction(headLabel);
+		addJumpLabel(endForLabel);
+	}
+
+	private void incrementCounter(ForLoop forLoop) {
+		if(forLoop.getDirection() == ForLoopDirection.UP) {
+			addLoadInstruction(1);
+		} else {
+			addLoadInstruction(-1);
+		}
+		addLoadInstruction(forLoop.getCounter().getLeftHandSide().getVariable());
+		addAddInstruction();
+		addStoreInstruction(forLoop.getCounter().getLeftHandSide().getVariable());
+	}
+	
+	private void compileWhileLoop(WhileLoop whileLoop) {
+		String uniqueID = createUniqueIdentifier();
+		String headMarker = "headWhile_" + uniqueID;
+		String endWhileMarker = "endWhile_" + uniqueID;
+		
+		LabelInstruction headLabel = MILCreationUtil.createLabelInstruction(headMarker);
+		LabelInstruction endForLabel = MILCreationUtil.createLabelInstruction(endWhileMarker);
+		
+		addJumpLabel(headLabel);
+		compileComparison(whileLoop.getCondition());
+		
+		addConditionalJumpInstruction(endForLabel);
+		compileBlock(whileLoop.getBody());
+		
+		addUnconditionalJumpInstruction(headLabel);
+		addJumpLabel(endForLabel);
 	}
 
 	private void compileExpressionStatement(ExpressionStatement expressionStatement) {

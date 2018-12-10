@@ -1,0 +1,32 @@
+lod 4
+sto a
+lod 5
+sto b
+lod 0
+sto c
+lod 3
+lod 2
+div
+sto c
+lod a
+lod b
+div
+sto c
+lod 2
+lod a
+div
+lod 4
+div
+sto c
+lod 2
+lod a
+div
+lod 4
+add
+sto c
+lod 2
+lod a
+lod 4
+div
+add
+sto c

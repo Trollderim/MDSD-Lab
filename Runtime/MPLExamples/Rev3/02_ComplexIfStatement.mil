@@ -5,11 +5,11 @@ sto b
 lod a
 lod 5
 gt
-jpc else_1379850b302a41ed9fa2bd285f57aaf8
+jpc else_998a1b12ba934c2dafc7fc2b186ebb98
 lod 3
 sto b
-jmp endif_1379850b302a41ed9fa2bd285f57aaf8
-else_1379850b302a41ed9fa2bd285f57aaf8:
+jmp endif_998a1b12ba934c2dafc7fc2b186ebb98
+else_998a1b12ba934c2dafc7fc2b186ebb98:
 lod 5
 sto b
-endif_1379850b302a41ed9fa2bd285f57aaf8:
+endif_998a1b12ba934c2dafc7fc2b186ebb98:
