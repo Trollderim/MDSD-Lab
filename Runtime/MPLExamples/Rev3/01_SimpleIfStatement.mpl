@@ -1,5 +1,5 @@
 Program Example
-	Variables a := 4, b.
+	Variables a := 6, b.
 	
 	If (a > 5) Then
 		b := 3.

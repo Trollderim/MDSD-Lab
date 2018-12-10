@@ -1,0 +1,13 @@
+lod 6
+sto a
+lod 0
+sto b
+lod a
+lod 5
+gt
+jpc else_02e0b58b5f774616a8e815a9a3121456
+lod 3
+sto b
+jmp endif_02e0b58b5f774616a8e815a9a3121456
+else_02e0b58b5f774616a8e815a9a3121456:
+endif_02e0b58b5f774616a8e815a9a3121456:

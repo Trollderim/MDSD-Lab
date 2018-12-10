@@ -1,0 +1,10 @@
+lod 4
+sto a
+lod 5
+sto b
+lod a
+lod b
+add
+sto c
+lod -5
+sto d

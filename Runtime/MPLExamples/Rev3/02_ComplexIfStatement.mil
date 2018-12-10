@@ -1,0 +1,15 @@
+lod 4
+sto a
+lod 0
+sto b
+lod a
+lod 5
+gt
+jpc else_1379850b302a41ed9fa2bd285f57aaf8
+lod 3
+sto b
+jmp endif_1379850b302a41ed9fa2bd285f57aaf8
+else_1379850b302a41ed9fa2bd285f57aaf8:
+lod 5
+sto b
+endif_1379850b302a41ed9fa2bd285f57aaf8:

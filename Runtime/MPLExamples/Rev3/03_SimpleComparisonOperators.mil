@@ -1,0 +1,46 @@
+lod 4
+sto a
+lod 3
+sto b
+lod a
+lod b
+lt
+jpc else_7d30602ea30a4745b73e5e0fd1e1f611
+jmp endif_7d30602ea30a4745b73e5e0fd1e1f611
+else_7d30602ea30a4745b73e5e0fd1e1f611:
+endif_7d30602ea30a4745b73e5e0fd1e1f611:
+lod a
+lod 5
+leq
+jpc else_a0b182f4280348a6aa3c5f51b13306ee
+jmp endif_a0b182f4280348a6aa3c5f51b13306ee
+else_a0b182f4280348a6aa3c5f51b13306ee:
+endif_a0b182f4280348a6aa3c5f51b13306ee:
+lod a
+lod b
+eq
+jpc else_216afe0511aa49fa84ae93e59d32daa1
+jmp endif_216afe0511aa49fa84ae93e59d32daa1
+else_216afe0511aa49fa84ae93e59d32daa1:
+endif_216afe0511aa49fa84ae93e59d32daa1:
+lod a
+lod 5
+neq
+jpc else_fae21ac38646428088dd69e9225d6d76
+jmp endif_fae21ac38646428088dd69e9225d6d76
+else_fae21ac38646428088dd69e9225d6d76:
+endif_fae21ac38646428088dd69e9225d6d76:
+lod a
+lod b
+geq
+jpc else_6a37f79480e14c769c0a34aedeb5bd3b
+jmp endif_6a37f79480e14c769c0a34aedeb5bd3b
+else_6a37f79480e14c769c0a34aedeb5bd3b:
+endif_6a37f79480e14c769c0a34aedeb5bd3b:
+lod a
+lod 5
+gt
+jpc else_076b9c9685f14ebeb0e61cfd1fc93688
+jmp endif_076b9c9685f14ebeb0e61cfd1fc93688
+else_076b9c9685f14ebeb0e61cfd1fc93688:
+endif_076b9c9685f14ebeb0e61cfd1fc93688:

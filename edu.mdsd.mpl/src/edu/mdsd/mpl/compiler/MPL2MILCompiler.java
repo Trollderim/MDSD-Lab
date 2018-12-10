@@ -3,24 +3,41 @@ package edu.mdsd.mpl.compiler;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import edu.mdsd.mil.AddInstruction;
+import edu.mdsd.mil.CompareInstruction;
+import edu.mdsd.mil.ConditionalJumpInstruction;
+import edu.mdsd.mil.DivInstruction;
 import edu.mdsd.mil.Instruction;
+import edu.mdsd.mil.LabelInstruction;
 import edu.mdsd.mil.LoadInstruction;
 import edu.mdsd.mil.MILModel;
+import edu.mdsd.mil.MulInstruction;
 import edu.mdsd.mil.StoreInstruction;
+import edu.mdsd.mil.SubInstruction;
+import edu.mdsd.mil.UnconditionalJumpInstruction;
 import edu.mdsd.mpl.AddExpression;
+import edu.mdsd.mpl.ArithmeticExpression;
 import edu.mdsd.mpl.Assignment;
+import edu.mdsd.mpl.Block;
+import edu.mdsd.mpl.ComparisonExpression;
+import edu.mdsd.mpl.ComparisonOperator;
+import edu.mdsd.mpl.DivExpression;
 import edu.mdsd.mpl.Expression;
 import edu.mdsd.mpl.ExpressionStatement;
+import edu.mdsd.mpl.IfStatement;
 import edu.mdsd.mpl.LiteralValue;
 import edu.mdsd.mpl.MPLModel;
+import edu.mdsd.mpl.MulExpression;
+import edu.mdsd.mpl.ParenthesisExpression;
 import edu.mdsd.mpl.Program;
 import edu.mdsd.mpl.Statement;
+import edu.mdsd.mpl.SubExpression;
 import edu.mdsd.mpl.Variable;
 import edu.mdsd.mpl.VariableDeclaration;
 import edu.mdsd.mpl.VariableReference;
@@ -70,17 +87,30 @@ public class MPL2MILCompiler {
 			compileVariableDeclaration(variableDeclaration);
 		}
 		
-		List<Statement> statements = program.getFunctionalBody().getStatements();
-		
-		for(Statement statement : statements) {
-			compileStatements(statement);
-		}	
+		Block functionalBody = program.getFunctionalBody();
+		if(functionalBody != null) {
+			compileBlock(functionalBody);
+		}
+	}
+	
+	private void compileBlock(Block block) {
+		if(block != null) {
+			List<Statement> statements = block.getStatements();
+			
+			for(Statement statement : statements) {
+				compileStatements(statement);
+			}
+		}
 	}
 
 	private void compileVariableDeclaration(VariableDeclaration variableDeclaration) {
 		Variable variable = variableDeclaration.getVariable();
 		
-		addLoadInstruction(0);
+		if(variableDeclaration.getVariableInitialization() != null) {
+			compileExpression(variableDeclaration.getVariableInitialization());
+		} else {
+			addLoadInstruction(0);
+		}
 		addStoreInstruction(variable);
 	}
 	
@@ -97,9 +127,43 @@ public class MPL2MILCompiler {
 			return;
 		}
 		
+		if(statement instanceof IfStatement) {
+			IfStatement ifStatement = (IfStatement) statement;
+			compileIfStatement(ifStatement);
+			return;
+		}
+		
 		throw new UnsupportedOperationException();
 	}
 	
+	private void compileIfStatement(IfStatement ifStatement) {
+		String uniqueID = createUniqueIdentifier();
+		String endifMarker = "endif_" + uniqueID;
+		String elseMarker = "else_" + uniqueID;
+		
+		LabelInstruction endifLabel = MILCreationUtil.createLabelInstruction(endifMarker);
+		LabelInstruction elseLabel = MILCreationUtil.createLabelInstruction(elseMarker);
+		
+		compileComparison(ifStatement.getCondition());		
+		addConditionalJumpInstruction(elseLabel);		
+		compileBlock(ifStatement.getThenBlock());
+		addUnconditionalJumpInstruction(endifLabel);		
+		addJumpLabel(elseLabel);		
+		compileBlock(ifStatement.getElseBlock());
+		addJumpLabel(endifLabel);
+	}
+	
+	private String createUniqueIdentifier() {
+		return UUID.randomUUID().toString().replace("-", "");
+	}
+
+	private void compileComparison(ComparisonExpression condition) {
+		compileExpression(condition.getLeftHandSide());
+		compileExpression(condition.getRightHandSide());
+		
+		addComparisonInstruction(condition.getComparisonOperator());
+	}
+
 	private void compileExpressionStatement(ExpressionStatement expressionStatement) {
 		Expression expression = expressionStatement.getExpression();
 		compileExpression(expression);
@@ -130,18 +194,43 @@ public class MPL2MILCompiler {
 			return;
 		}
 		
-		if(expression instanceof AddExpression) {
-			AddExpression addExpression = (AddExpression) expression;
-			Expression operand1 = addExpression.getOperand1();
-			Expression operand2 = addExpression.getOperand2();
+		if(expression instanceof ArithmeticExpression) {
+			ArithmeticExpression arithmeticExpression = (ArithmeticExpression) expression;
+			Expression operand1 = arithmeticExpression.getOperand1();
+			Expression operand2 = arithmeticExpression.getOperand2();
 			
 			compileExpression(operand1);
 			compileExpression(operand2);
-			addAddInstruction();
+			
+			compileArithmeticExpression(arithmeticExpression);
+			return;
+		}
+		
+		if(expression instanceof ParenthesisExpression) {
+			ParenthesisExpression parenthesisExpression = (ParenthesisExpression) expression;
+			if(parenthesisExpression != null) {
+				compileExpression(parenthesisExpression.getOperand());
+			}
+			
 			return;
 		}
 		
 		throw new UnsupportedOperationException();
+	}
+
+	private void compileArithmeticExpression(ArithmeticExpression arithmeticExpression) {
+		if(arithmeticExpression instanceof AddExpression) {
+			addAddInstruction();
+		} else if(arithmeticExpression instanceof SubExpression) {
+			addSubInstruction();
+		} else if(arithmeticExpression instanceof MulExpression) {
+			addMulInstruction();
+		} else if(arithmeticExpression instanceof DivExpression) {
+			addDivInstruction();
+		} else {
+			throw new UnsupportedOperationException();
+		}
+		
 	}
 
 	private LoadInstruction addLoadInstruction(int rawValue) {
@@ -176,5 +265,70 @@ public class MPL2MILCompiler {
 		AddInstruction addInstruction = MILCreationUtil.createAddInstruction();
 		instructions.add(addInstruction);
 		return addInstruction;		
+	}
+	
+	private SubInstruction addSubInstruction() {
+		SubInstruction subInstruction = MILCreationUtil.createSubInstruction();
+		instructions.add(subInstruction);
+		return subInstruction;		
+	}
+	
+	private DivInstruction addDivInstruction() {
+		DivInstruction divInstruction = MILCreationUtil.createDivInstruction();
+		instructions.add(divInstruction);
+		return divInstruction;		
+	}
+	
+	private MulInstruction addMulInstruction() {
+		MulInstruction mulInstruction = MILCreationUtil.createMulInstruction();
+		instructions.add(mulInstruction);
+		return mulInstruction;		
+	}
+	
+	private CompareInstruction addComparisonInstruction(ComparisonOperator comparisonOperator) {
+		CompareInstruction instruction;
+		
+		switch (comparisonOperator) {
+		case EQUAL:
+			instruction = MILCreationUtil.createEqualInstruction();
+			break;
+		case INEQUAL:
+			instruction = MILCreationUtil.createNotEqualInstruction();
+			break;
+		case GREATER_THAN:
+			instruction = MILCreationUtil.createGreaterThanInstruction();
+			break;
+		case GREATER_THAN_EQUAL:
+			instruction = MILCreationUtil.createGreaterThanEqualInstruction();
+			break;
+		case LESS_THAN:
+			instruction = MILCreationUtil.createLessThanInstruction();
+			break;
+		case LESS_THAN_EQUAL:
+			instruction = MILCreationUtil.createLessThanEqualInstruction();
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		
+		instructions.add(instruction);
+		return instruction;
+	}
+	
+	private ConditionalJumpInstruction addConditionalJumpInstruction(LabelInstruction jumpTo) {
+		ConditionalJumpInstruction jpcInstruction = MILCreationUtil.createConditionalJumpInstruction(jumpTo);
+		instructions.add(jpcInstruction);
+		return jpcInstruction;
+	}
+	
+	private UnconditionalJumpInstruction addUnconditionalJumpInstruction(LabelInstruction jumpTo) {
+		UnconditionalJumpInstruction jmpInstruction = MILCreationUtil.createUnconditionalJumpInstruction(jumpTo);
+		instructions.add(jmpInstruction);
+		return jmpInstruction;
+	}
+	
+	private LabelInstruction addJumpLabel(LabelInstruction jumpLabel) {
+		instructions.add(jumpLabel);
+		return jumpLabel;
 	}
 }
