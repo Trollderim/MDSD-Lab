@@ -10,3 +10,5 @@ lod 3
 lod 1
 add
 sto b
+jmp EndProgram
+EndProgram:

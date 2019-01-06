@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import edu.mdsd.mil.AddInstruction;
+import edu.mdsd.mil.CallInstruction;
 import edu.mdsd.mil.CompareInstruction;
 import edu.mdsd.mil.ConditionalJumpInstruction;
 import edu.mdsd.mil.DivInstruction;
@@ -18,9 +19,12 @@ import edu.mdsd.mil.LabelInstruction;
 import edu.mdsd.mil.LoadInstruction;
 import edu.mdsd.mil.MILModel;
 import edu.mdsd.mil.MulInstruction;
+import edu.mdsd.mil.PrintInstruction;
+import edu.mdsd.mil.ReturnInstruction;
 import edu.mdsd.mil.StoreInstruction;
 import edu.mdsd.mil.SubInstruction;
 import edu.mdsd.mil.UnconditionalJumpInstruction;
+import edu.mdsd.mil.YieldInstruciton;
 import edu.mdsd.mpl.AddExpression;
 import edu.mdsd.mpl.ArithmeticExpression;
 import edu.mdsd.mpl.Assignment;
@@ -32,14 +36,19 @@ import edu.mdsd.mpl.Expression;
 import edu.mdsd.mpl.ExpressionStatement;
 import edu.mdsd.mpl.ForLoop;
 import edu.mdsd.mpl.ForLoopDirection;
+import edu.mdsd.mpl.FunctionalUnit;
 import edu.mdsd.mpl.IfStatement;
 import edu.mdsd.mpl.LiteralValue;
 import edu.mdsd.mpl.MPLModel;
 import edu.mdsd.mpl.MulExpression;
+import edu.mdsd.mpl.Operation;
+import edu.mdsd.mpl.OperationExpression;
 import edu.mdsd.mpl.ParenthesisExpression;
 import edu.mdsd.mpl.Program;
+import edu.mdsd.mpl.ReturnStatement;
 import edu.mdsd.mpl.Statement;
 import edu.mdsd.mpl.SubExpression;
+import edu.mdsd.mpl.Trace;
 import edu.mdsd.mpl.Variable;
 import edu.mdsd.mpl.VariableDeclaration;
 import edu.mdsd.mpl.VariableReference;
@@ -69,28 +78,51 @@ public class MPL2MILCompiler {
 	
 	public MILModel compile(Resource mplResource) {
 		MPLModel mplModel = (MPLModel) mplResource.getContents().get(0);
-		Program program = mplModel.getProgram();
-		return compile(program);
+		return compile(mplModel);
 	}
 	
-	public MILModel compile(Program program) {
+	public MILModel compile(MPLModel model) {
 		MILModel milModel = MILCreationUtil.createMILModel();
 		
-		 instructions = milModel.getInstructions();
+		instructions = milModel.getInstructions();
 		 
-		 compileProgram(program);
+		Program program = model.getProgram();
+		compileFunctionalUnit(program);
+		
+		LabelInstruction endProgramLabel = MILCreationUtil.createLabelInstruction("EndProgram");
+		addUnconditionalJumpInstruction(endProgramLabel);
+		 
+		List<Operation> operations = model.getOperations();
+		 
+		for(Operation operation : operations) {
+			compileOperation(operation);
+			 
+			FunctionalUnit unit = (FunctionalUnit) operation;
+			compileFunctionalUnit(unit);
+		}
+		
+		addJumpLabel(endProgramLabel);
 		
 		return milModel;
 	}
 
-	private void compileProgram(Program program) {
-		List<VariableDeclaration> variableDeclarations = program.getVariableDeclarations();
+	private void compileOperation(Operation operation) {
+		LabelInstruction label = MILCreationUtil.createLabelInstruction(operation.getName());
+		addJumpLabel(label);
+		
+		for(Variable parameter : operation.getParameters()) {
+			addStoreInstruction(parameter);
+		}		
+	}
+
+	private void compileFunctionalUnit(FunctionalUnit unit) {
+		List<VariableDeclaration> variableDeclarations = unit.getVariableDeclarations();
 		
 		for(VariableDeclaration variableDeclaration : variableDeclarations) {
 			compileVariableDeclaration(variableDeclaration);
 		}
 		
-		Block functionalBody = program.getFunctionalBody();
+		Block functionalBody = unit.getFunctionalBody();
 		if(functionalBody != null) {
 			compileBlock(functionalBody);
 		}
@@ -145,6 +177,18 @@ public class MPL2MILCompiler {
 		if(statement instanceof WhileLoop) {
 			WhileLoop whileLoop = (WhileLoop) statement;
 			compileWhileLoop(whileLoop);
+			return;
+		}
+		
+		if(statement instanceof Trace) {
+			Trace trace = (Trace) statement;
+			compileTrace(trace);
+			return;
+		}
+		
+		if(statement instanceof ReturnStatement) {
+			ReturnStatement returnStatement = (ReturnStatement) statement;
+			compileReturnStatement(returnStatement);
 			return;
 		}
 		
@@ -237,10 +281,22 @@ public class MPL2MILCompiler {
 		addUnconditionalJumpInstruction(headLabel);
 		addJumpLabel(endForLabel);
 	}
+	
+	private void compileTrace(Trace trace) {
+		Variable variable = trace.getVarToPrint().getVariable();
+		String variableName = variable.getName();
+		
+		addPrintInstruction("\"" + variableName + " = " + "\"");
+		addLoadInstruction(variable);
+		addYieldInstruction();
+		addPrintInstruction("\"\\n\"");
+	}
 
 	private void compileExpressionStatement(ExpressionStatement expressionStatement) {
 		Expression expression = expressionStatement.getExpression();
 		compileExpression(expression);
+		
+		addStoreInstruction("");
 	}
 
 	private void compileAssignment(Assignment assignment) {
@@ -289,6 +345,20 @@ public class MPL2MILCompiler {
 			return;
 		}
 		
+		if(expression instanceof OperationExpression) {
+			OperationExpression operationExpression = (OperationExpression) expression;
+			
+			List<Expression> parameters = operationExpression.getParameters();
+			
+			for(int i = parameters.size() - 1; i >= 0; i--) {
+				compileExpression(parameters.get(i));
+			}
+			
+			addCallInstruction(operationExpression);
+			
+			return;
+		}
+		
 		throw new UnsupportedOperationException();
 	}
 
@@ -305,6 +375,16 @@ public class MPL2MILCompiler {
 			throw new UnsupportedOperationException();
 		}
 		
+	}
+	
+	private void compileReturnStatement(ReturnStatement returnStatement) {
+		if(returnStatement.getReturnValue() != null) {
+			compileExpression(returnStatement.getReturnValue());
+		} else {
+			addLoadInstruction(0);
+		}
+		
+		addReturnInstruction(returnStatement);
 	}
 
 	private LoadInstruction addLoadInstruction(int rawValue) {
@@ -404,5 +484,32 @@ public class MPL2MILCompiler {
 	private LabelInstruction addJumpLabel(LabelInstruction jumpLabel) {
 		instructions.add(jumpLabel);
 		return jumpLabel;
+	}
+	
+	private PrintInstruction addPrintInstruction(String output) {
+		PrintInstruction print = MILCreationUtil.createPrintInstruction(output);
+		instructions.add(print);
+		return print;
+	}
+	
+	private YieldInstruciton addYieldInstruction() {
+		YieldInstruciton yield = MILCreationUtil.createYieldInstruction();
+		instructions.add(yield);
+		return yield;
+	}
+	
+	private ReturnInstruction addReturnInstruction(ReturnStatement returnStatement) {
+		ReturnInstruction returnInstruction = MILCreationUtil.createReturnInstruction();
+		instructions.add(returnInstruction);
+		
+		return returnInstruction;		
+	}
+	
+	private CallInstruction addCallInstruction(OperationExpression operationExpression) {
+		LabelInstruction label = MILCreationUtil.createLabelInstruction(operationExpression.getOperation().getName());
+		CallInstruction callInstruction = MILCreationUtil.createCallInstruction(label);
+		instructions.add(callInstruction);
+		
+		return callInstruction;		
 	}
 }

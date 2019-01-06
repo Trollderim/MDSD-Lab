@@ -7,10 +7,13 @@ End.
 
 Procedure Debug()
 	//...
+	Return.
 End.
 
 Procedure M(a, t)
 	Trace(a).
 	Trace(t).
+	
+	Return.
 End.
 

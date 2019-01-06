@@ -4,3 +4,5 @@ lod 0
 sto b
 lod 0
 sto c
+jmp EndProgram
+EndProgram:

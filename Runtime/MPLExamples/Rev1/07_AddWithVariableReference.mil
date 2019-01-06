@@ -14,3 +14,5 @@ lod a
 lod b
 add
 sto c
+jmp EndProgram
+EndProgram:

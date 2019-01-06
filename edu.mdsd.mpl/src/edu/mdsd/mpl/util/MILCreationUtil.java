@@ -1,6 +1,7 @@
 package edu.mdsd.mpl.util;
 
 import edu.mdsd.mil.AddInstruction;
+import edu.mdsd.mil.CallInstruction;
 import edu.mdsd.mil.ConditionalJumpInstruction;
 import edu.mdsd.mil.ConstantInteger;
 import edu.mdsd.mil.DivInstruction;
@@ -15,10 +16,14 @@ import edu.mdsd.mil.MILFactory;
 import edu.mdsd.mil.MILModel;
 import edu.mdsd.mil.MulInstruction;
 import edu.mdsd.mil.NotEqualInstruction;
+import edu.mdsd.mil.PrintInstruction;
 import edu.mdsd.mil.RegisterReference;
+import edu.mdsd.mil.ReturnInstruction;
 import edu.mdsd.mil.StoreInstruction;
 import edu.mdsd.mil.SubInstruction;
 import edu.mdsd.mil.UnconditionalJumpInstruction;
+import edu.mdsd.mil.YieldInstruciton;
+import edu.mdsd.mpl.Operation;
 
 public class MILCreationUtil {
 	private static final MILFactory factory = MILFactory.eINSTANCE;
@@ -123,4 +128,25 @@ public class MILCreationUtil {
 		return instruction;
 	}
 
+	public static PrintInstruction createPrintInstruction(String output) {
+		PrintInstruction print = factory.createPrintInstruction();
+		print.setOutput(output);
+		return print;
+	}
+	
+	public static YieldInstruciton createYieldInstruction() {
+		YieldInstruciton yield = factory.createYieldInstruciton();
+		return yield;
+	}
+	
+	public static ReturnInstruction createReturnInstruction() {
+		ReturnInstruction returnIns = factory.createReturnInstruction();
+		return returnIns;
+	}
+	
+	public static CallInstruction createCallInstruction(LabelInstruction operation) {
+		CallInstruction callInstruction = factory.createCallInstruction();
+		callInstruction.setOperationName(operation);
+		return callInstruction;
+	}
 }

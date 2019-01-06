@@ -1,2 +1,4 @@
 lod 0
 sto a
+jmp EndProgram
+EndProgram:

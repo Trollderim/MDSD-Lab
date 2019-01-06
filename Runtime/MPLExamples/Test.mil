@@ -8,3 +8,5 @@ lod a
 lod 4
 add
 sto b
+jmp EndProgram
+EndProgram:

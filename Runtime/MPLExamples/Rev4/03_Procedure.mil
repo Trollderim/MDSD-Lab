@@ -1,0 +1,28 @@
+lod 4
+sto a
+lod 5
+sto b
+cal Debug
+sto 
+lod b
+lod a
+cal M
+sto 
+jmp EndProgram
+Debug:
+lod 0
+ret
+M:
+sto a
+sto t
+prt"a = "
+lod a
+yld
+prt"\n"
+prt"t = "
+lod t
+yld
+prt"\n"
+lod 0
+ret
+EndProgram:

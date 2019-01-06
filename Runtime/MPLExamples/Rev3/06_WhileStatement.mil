@@ -4,11 +4,11 @@ lod 0
 sto b
 lod 0
 sto i
-headWhile_bc79a8048c034cefa371d0c196780ca2:
+headWhile_d9489d567e194f6086d08ad6f157f6e0:
 lod i
 lod 50
 lt
-jpc endWhile_bc79a8048c034cefa371d0c196780ca2
+jpc endWhile_d9489d567e194f6086d08ad6f157f6e0
 lod a
 lod 1
 add
@@ -17,15 +17,15 @@ lod i
 lod 3
 add
 sto i
-jmp headWhile_bc79a8048c034cefa371d0c196780ca2
-endWhile_bc79a8048c034cefa371d0c196780ca2:
-headWhile_26eba916c0894419a92856587f1df277:
+jmp headWhile_d9489d567e194f6086d08ad6f157f6e0
+endWhile_d9489d567e194f6086d08ad6f157f6e0:
+headWhile_202cc470c18842ac9781e3a65e6495fc:
 lod i
 lod a
 lod 50
 mul
 lt
-jpc endWhile_26eba916c0894419a92856587f1df277
+jpc endWhile_202cc470c18842ac9781e3a65e6495fc
 lod a
 lod 1
 add
@@ -34,5 +34,7 @@ lod i
 lod 51
 add
 sto i
-jmp headWhile_26eba916c0894419a92856587f1df277
-endWhile_26eba916c0894419a92856587f1df277:
+jmp headWhile_202cc470c18842ac9781e3a65e6495fc
+endWhile_202cc470c18842ac9781e3a65e6495fc:
+jmp EndProgram
+EndProgram:

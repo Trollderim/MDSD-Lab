@@ -1,0 +1,178 @@
+lod 4
+sto a
+lod 0
+sto a2
+lod 0
+sto b
+lod 0
+sto c
+cal F
+sto b
+lod a
+cal Sqr
+sto a2
+cal F
+lod b
+cal Sqr
+add
+sto c
+lod b
+lod a
+cal M
+sto 
+prt"a = "
+lod a
+yld
+prt"\n"
+prt"b = "
+lod b
+yld
+prt"\n"
+jmp EndProgram
+F:
+lod 1
+ret
+F:
+lod 0
+sto a
+lod 0
+ret
+Sqr:
+sto a
+lod a
+lod a
+mul
+ret
+M:
+sto a
+sto t
+lod a
+sto b
+lod a
+lod 3
+lod t
+mul
+add
+ret
+Fac:
+sto a
+lod a
+lod 0
+lt
+jpc else_37ea6692c7034a93b7e4473483a43f44
+lod 0
+ret
+jmp endif_37ea6692c7034a93b7e4473483a43f44
+else_37ea6692c7034a93b7e4473483a43f44:
+endif_37ea6692c7034a93b7e4473483a43f44:
+lod a
+lod 0
+eq
+jpc else_5a9cd6d6305f4107b6212c57da6af92c
+lod 1
+ret
+jmp endif_5a9cd6d6305f4107b6212c57da6af92c
+else_5a9cd6d6305f4107b6212c57da6af92c:
+endif_5a9cd6d6305f4107b6212c57da6af92c:
+lod a
+lod a
+lod 1
+sub
+cal Fac
+mul
+ret
+F2:
+sto a
+lod a
+lod 5
+lt
+jpc else_2336169d79d4417994e5474d8298b2c1
+lod a
+ret
+jmp endif_2336169d79d4417994e5474d8298b2c1
+else_2336169d79d4417994e5474d8298b2c1:
+lod a
+lod 2
+mul
+ret
+endif_2336169d79d4417994e5474d8298b2c1:
+F3a:
+sto a
+lod a
+lod 5
+lt
+jpc else_1c77327ad88242ce8b99910da541e038
+lod a
+lod 2
+add
+sto a
+jmp endif_1c77327ad88242ce8b99910da541e038
+else_1c77327ad88242ce8b99910da541e038:
+lod a
+lod 2
+mul
+ret
+endif_1c77327ad88242ce8b99910da541e038:
+lod a
+ret
+F3a:
+sto a
+lod a
+lod 5
+lt
+jpc else_a11c63473d374eb7af8aae71f45e56e6
+lod a
+lod 2
+add
+ret
+jmp endif_a11c63473d374eb7af8aae71f45e56e6
+else_a11c63473d374eb7af8aae71f45e56e6:
+lod a
+lod 2
+mul
+sto a
+endif_a11c63473d374eb7af8aae71f45e56e6:
+lod a
+ret
+F3a:
+sto a
+lod a
+lod 5
+lt
+jpc else_c373c5c1e76f466aa9b75a2b87dcf4b0
+lod a
+lod 2
+add
+sto a
+jmp endif_c373c5c1e76f466aa9b75a2b87dcf4b0
+else_c373c5c1e76f466aa9b75a2b87dcf4b0:
+lod a
+lod 2
+mul
+sto a
+endif_c373c5c1e76f466aa9b75a2b87dcf4b0:
+lod a
+ret
+F4a:
+sto a
+lod 1
+lod 0
+gt
+jpc else_c4830604ef8b441780ecca5d483697bf
+lod 5
+ret
+jmp endif_c4830604ef8b441780ecca5d483697bf
+else_c4830604ef8b441780ecca5d483697bf:
+endif_c4830604ef8b441780ecca5d483697bf:
+F4b:
+sto a
+lod a
+lod a
+eq
+jpc else_45f1d9e67f8e4bbb9d8ab59381c9ecd7
+lod 5
+ret
+jmp endif_45f1d9e67f8e4bbb9d8ab59381c9ecd7
+else_45f1d9e67f8e4bbb9d8ab59381c9ecd7:
+endif_45f1d9e67f8e4bbb9d8ab59381c9ecd7:
+EndProgram:

@@ -44,3 +44,5 @@ div
 lod 7
 add
 sto c
+jmp EndProgram
+EndProgram:

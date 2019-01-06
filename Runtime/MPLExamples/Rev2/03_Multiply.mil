@@ -30,3 +30,5 @@ lod 4
 mul
 add
 sto c
+jmp EndProgram
+EndProgram:
