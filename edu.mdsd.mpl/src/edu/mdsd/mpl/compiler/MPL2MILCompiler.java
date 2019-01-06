@@ -25,6 +25,7 @@ import edu.mdsd.mil.StoreInstruction;
 import edu.mdsd.mil.SubInstruction;
 import edu.mdsd.mil.UnconditionalJumpInstruction;
 import edu.mdsd.mil.YieldInstruciton;
+import edu.mdsd.mil.compiler.MILToMILBCompiler;
 import edu.mdsd.mpl.AddExpression;
 import edu.mdsd.mpl.ArithmeticExpression;
 import edu.mdsd.mpl.Assignment;
@@ -74,6 +75,10 @@ public class MPL2MILCompiler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		MILToMILBCompiler compiler = new MILToMILBCompiler();
+		List<Byte> milbModel = compiler.compile(milModel);
+		System.out.print(milbModel);
 	}
 	
 	public MILModel compile(Resource mplResource) {
