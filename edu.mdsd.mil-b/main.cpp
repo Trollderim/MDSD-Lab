@@ -7,6 +7,7 @@
 #include <vector>
 #include <zconf.h>
 #include <array>
+#include "MilbInterpreter.h"
 
 int main() {
     std::ifstream input("Test.milb", std::ifstream::binary);
@@ -36,6 +37,8 @@ int main() {
 
         input.close();
 
+        auto interpreter = MilbInterpreter();
+        auto result = interpreter.interpretByteCode(byteVector);
     }
 
     return 0;

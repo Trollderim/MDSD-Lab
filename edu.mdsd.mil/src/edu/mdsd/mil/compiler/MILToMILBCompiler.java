@@ -23,9 +23,7 @@ public class MILToMILBCompiler {
 		LOAD_VARIABLE(0x02),
 		STORE_DUMP(0x04),
 		STORE_VARIABLE(0x05),
-		ARITHMETIC_ADD(0xA0),
-		SECTION_CONSTANTS(0xF0),
-		SECTION_VARIABLE_NAMES(0xF2);
+		ARITHMETIC_ADD(0xA0);
 		
 		private Byte pattern;
 		
@@ -38,11 +36,9 @@ public class MILToMILBCompiler {
 		}
 	}
 	
-	List<Integer> constants;
 	Map<String, Integer> variableNames; 
 	
 	public MILToMILBCompiler() {
-		constants = new ArrayList<>();
 		variableNames = new LinkedHashMap<>();
 	}
 	
@@ -54,10 +50,7 @@ public class MILToMILBCompiler {
 		for(Instruction instruction : instructions) {
 			result.addAll(translateInstruction(instruction));
 		}
-		
-		result.addAll(translateConstants());
-		result.addAll(translateVariableNames());
-		
+			
 		return result;
 	}
 	
@@ -92,11 +85,9 @@ public class MILToMILBCompiler {
 		Value value = loadInstruction.getValue();
 		
 		if(value instanceof ConstantInteger) {
-			//TODO: Make this implementation safe for more than 256 constants
 			translated.add(Bytecodes.LOAD_CONSTANT.pattern);
-			int indexOfConstant = constants.size();
-			translated.add((byte) indexOfConstant);
-			constants.add(((ConstantInteger) value).getRawValue());
+			List<Byte> translatedConstant = translateConstant(((ConstantInteger) value).getRawValue());
+			translated.addAll(translatedConstant);
 		} else if(value instanceof RegisterReference) {
 			translated.add(Bytecodes.LOAD_VARIABLE.pattern);
 			int variableIndex = getVariableIndex(((RegisterReference) value).getAddress());
@@ -104,16 +95,13 @@ public class MILToMILBCompiler {
 		}
 	}
 	
-	private List<Byte> translateConstants() {
+	private List<Byte> translateConstant(int constant) {
 		List<Byte> translated = new ArrayList<>();
-		translated.add(Bytecodes.SECTION_CONSTANTS.pattern);
 		
-		for (Integer constant : constants) {
-			byte[] bytes = ByteBuffer.allocate(4).putInt(constant).array();
-			
-			for(Byte temp : bytes) {
-				translated.add(temp);
-			}
+		byte[] bytes = ByteBuffer.allocate(4).putInt(constant).array();
+		
+		for(Byte temp : bytes) {
+			translated.add(temp);
 		}
 		
 		return translated;
@@ -127,22 +115,5 @@ public class MILToMILBCompiler {
 			variableNames.put(variable, variableNames.size());
 			return (byte) (variableNames.size() - 1); 
 		}
-	}
-	
-	private List<Byte> translateVariableNames() {
-		List<Byte> translated = new ArrayList<>();
-		translated.add(Bytecodes.SECTION_VARIABLE_NAMES.pattern);
-		
-		for (String name : variableNames.keySet()) {
-			byte[] bytes = name.getBytes();
-			
-			for(Byte temp : bytes) {
-				translated.add(temp);
-			}
-			
-			translated.add((byte) 0x00);
-		}
-		
-		return translated;
 	}
 }
