@@ -1,10 +1,12 @@
 package edu.mdsd.mpl.compiler;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.eclipse.core.internal.utils.FileUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -78,6 +80,20 @@ public class MPL2MILCompiler {
 		
 		MILToMILBCompiler compiler = new MILToMILBCompiler();
 		List<Byte> milbModel = compiler.compile(milModel);
+		
+		URI milbResourceUri = mplResourceUri.trimFileExtension().appendFileExtension("milb");
+		
+		try (FileOutputStream stream = new FileOutputStream("../../MDSD-Lab/edu.mdsd.mil-b/Test.milb")) {
+			byte[] result = new byte[milbModel.size()];
+			for(int i = 0; i < milbModel.size(); i++) {
+				result[i] = milbModel.get(i).byteValue();
+			}
+			
+			stream.write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		System.out.print(milbModel);
 	}
 	

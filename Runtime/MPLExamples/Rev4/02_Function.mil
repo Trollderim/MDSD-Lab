@@ -59,21 +59,21 @@ sto a
 lod a
 lod 0
 lt
-jpc else_37ea6692c7034a93b7e4473483a43f44
+jpc else_96a20d3734944c8a96da79e694fbec32
 lod 0
 ret
-jmp endif_37ea6692c7034a93b7e4473483a43f44
-else_37ea6692c7034a93b7e4473483a43f44:
-endif_37ea6692c7034a93b7e4473483a43f44:
+jmp endif_96a20d3734944c8a96da79e694fbec32
+else_96a20d3734944c8a96da79e694fbec32:
+endif_96a20d3734944c8a96da79e694fbec32:
 lod a
 lod 0
 eq
-jpc else_5a9cd6d6305f4107b6212c57da6af92c
+jpc else_02ea6c789906443d87b74e9a698cae44
 lod 1
 ret
-jmp endif_5a9cd6d6305f4107b6212c57da6af92c
-else_5a9cd6d6305f4107b6212c57da6af92c:
-endif_5a9cd6d6305f4107b6212c57da6af92c:
+jmp endif_02ea6c789906443d87b74e9a698cae44
+else_02ea6c789906443d87b74e9a698cae44:
+endif_02ea6c789906443d87b74e9a698cae44:
 lod a
 lod a
 lod 1
@@ -86,52 +86,33 @@ sto a
 lod a
 lod 5
 lt
-jpc else_2336169d79d4417994e5474d8298b2c1
+jpc else_b602b7eea4de4610978cd0318747ddab
 lod a
 ret
-jmp endif_2336169d79d4417994e5474d8298b2c1
-else_2336169d79d4417994e5474d8298b2c1:
+jmp endif_b602b7eea4de4610978cd0318747ddab
+else_b602b7eea4de4610978cd0318747ddab:
 lod a
 lod 2
 mul
 ret
-endif_2336169d79d4417994e5474d8298b2c1:
+endif_b602b7eea4de4610978cd0318747ddab:
 F3a:
 sto a
 lod a
 lod 5
 lt
-jpc else_1c77327ad88242ce8b99910da541e038
+jpc else_7a91aa511c144a0ca2f20e5920d44035
 lod a
 lod 2
 add
 sto a
-jmp endif_1c77327ad88242ce8b99910da541e038
-else_1c77327ad88242ce8b99910da541e038:
+jmp endif_7a91aa511c144a0ca2f20e5920d44035
+else_7a91aa511c144a0ca2f20e5920d44035:
 lod a
 lod 2
 mul
 ret
-endif_1c77327ad88242ce8b99910da541e038:
-lod a
-ret
-F3a:
-sto a
-lod a
-lod 5
-lt
-jpc else_a11c63473d374eb7af8aae71f45e56e6
-lod a
-lod 2
-add
-ret
-jmp endif_a11c63473d374eb7af8aae71f45e56e6
-else_a11c63473d374eb7af8aae71f45e56e6:
-lod a
-lod 2
-mul
-sto a
-endif_a11c63473d374eb7af8aae71f45e56e6:
+endif_7a91aa511c144a0ca2f20e5920d44035:
 lod a
 ret
 F3a:
@@ -139,18 +120,37 @@ sto a
 lod a
 lod 5
 lt
-jpc else_c373c5c1e76f466aa9b75a2b87dcf4b0
+jpc else_cfd4927d456a421cada8b20cb1c5d78a
 lod a
 lod 2
 add
-sto a
-jmp endif_c373c5c1e76f466aa9b75a2b87dcf4b0
-else_c373c5c1e76f466aa9b75a2b87dcf4b0:
+ret
+jmp endif_cfd4927d456a421cada8b20cb1c5d78a
+else_cfd4927d456a421cada8b20cb1c5d78a:
 lod a
 lod 2
 mul
 sto a
-endif_c373c5c1e76f466aa9b75a2b87dcf4b0:
+endif_cfd4927d456a421cada8b20cb1c5d78a:
+lod a
+ret
+F3a:
+sto a
+lod a
+lod 5
+lt
+jpc else_56c97aef613e4a19a9a3bfc092d49bb1
+lod a
+lod 2
+add
+sto a
+jmp endif_56c97aef613e4a19a9a3bfc092d49bb1
+else_56c97aef613e4a19a9a3bfc092d49bb1:
+lod a
+lod 2
+mul
+sto a
+endif_56c97aef613e4a19a9a3bfc092d49bb1:
 lod a
 ret
 F4a:
@@ -158,21 +158,21 @@ sto a
 lod 1
 lod 0
 gt
-jpc else_c4830604ef8b441780ecca5d483697bf
+jpc else_0cf64bc734cc4ff0a158f0d27a078727
 lod 5
 ret
-jmp endif_c4830604ef8b441780ecca5d483697bf
-else_c4830604ef8b441780ecca5d483697bf:
-endif_c4830604ef8b441780ecca5d483697bf:
+jmp endif_0cf64bc734cc4ff0a158f0d27a078727
+else_0cf64bc734cc4ff0a158f0d27a078727:
+endif_0cf64bc734cc4ff0a158f0d27a078727:
 F4b:
 sto a
 lod a
 lod a
 eq
-jpc else_45f1d9e67f8e4bbb9d8ab59381c9ecd7
+jpc else_e565ff8497fd44618526b33560c176c1
 lod 5
 ret
-jmp endif_45f1d9e67f8e4bbb9d8ab59381c9ecd7
-else_45f1d9e67f8e4bbb9d8ab59381c9ecd7:
-endif_45f1d9e67f8e4bbb9d8ab59381c9ecd7:
+jmp endif_e565ff8497fd44618526b33560c176c1
+else_e565ff8497fd44618526b33560c176c1:
+endif_e565ff8497fd44618526b33560c176c1:
 EndProgram:

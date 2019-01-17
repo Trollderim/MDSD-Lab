@@ -5,9 +5,11 @@ sto bla
 prt"a = "
 lod a
 yld
+prt"\n"
 prt"bla = "
 lod bla
 yld
+prt"\n"
 jmp EndProgram
 Temp:
 sto a

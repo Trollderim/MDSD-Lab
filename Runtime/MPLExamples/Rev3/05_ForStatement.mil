@@ -6,11 +6,11 @@ lod 1
 sto c
 lod 1
 sto b
-headFor_1565955f77374ac1b10c591fb70bd2e3:
+headFor_043a3bde661d48b78f12b9812b658f12:
 lod b
 lod 10
 leq
-jpc endFor_1565955f77374ac1b10c591fb70bd2e3
+jpc endFor_043a3bde661d48b78f12b9812b658f12
 lod c
 lod b
 lod 5
@@ -21,7 +21,7 @@ lod 1
 lod b
 add
 sto b
-jmp headFor_1565955f77374ac1b10c591fb70bd2e3
-endFor_1565955f77374ac1b10c591fb70bd2e3:
+jmp headFor_043a3bde661d48b78f12b9812b658f12
+endFor_043a3bde661d48b78f12b9812b658f12:
 jmp EndProgram
 EndProgram:
