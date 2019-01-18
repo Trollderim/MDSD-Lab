@@ -10,7 +10,7 @@
 #include "MilbInterpreter.h"
 
 int main() {
-    std::ifstream input("Test.milb", std::ifstream::binary);
+    std::ifstream input("../Test.milb", std::ifstream::binary);
 
     if(input) {
         input.seekg(0, input.end);
@@ -29,7 +29,7 @@ int main() {
             std::cout << "error: only " << input.gcount() << " could be read";
         }
 
-        const auto byteVector = std::vector<char>(buffer, buffer + length);
+        const auto byteVector = std::vector<unsigned char>(buffer, buffer + length);
 
         for(auto byte : byteVector) {
             std::cout << (int) byte;

@@ -6,13 +6,10 @@
 
 #include <exception>
 #include <cmath>
+#include <sstream>
 
-std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vector<char> &byteStream) {
+std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vector<unsigned char> &byteStream) {
     for(auto it = byteStream.begin(); it != byteStream.end(); it++) {
-        if(*it == -96) {
-            break;
-        }
-
         switch (*it) {
             case Bytecodes::LOAD_CONSTANT:
             {
@@ -44,23 +41,31 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
             break;
             case Bytecodes::ARITHMETIC_ADD:
             {
-                const auto op1 = operandStack.top();
-                operandStack.pop();
-                const auto op2 = operandStack.top();
-                operandStack.pop();
+                const auto op2 = popFromStack();
+                const auto op1 = popFromStack();
                 operandStack.push(op1 + op2);
             }
             break;
             default:
-                throw std::logic_error("Unsuported operation in bytestream.");
+                auto stream = std::stringstream();
+                stream << "Unsuported operation in bytestream. Operator: ";
+                stream << (int) *it;
+
+                throw std::logic_error(stream.str());
         }
     }
 
     return variableRegister;
 }
 
+int MilbInterpreter::popFromStack() {
+    const auto op1 = operandStack.top();
+    operandStack.pop();
+    return op1;
+}
+
 int MilbInterpreter::loadInteger(
-        __gnu_cxx::__normal_iterator<const char *, std::vector<char, std::allocator<char>>> iterator) {
+        __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> iterator) {
     int value = (iterator[0] << 24) | (iterator[1] << 16) | (iterator[2] << 8) | (iterator[3]);
 
     return value;
