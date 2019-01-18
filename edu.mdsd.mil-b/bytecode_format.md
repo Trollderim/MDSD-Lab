@@ -20,4 +20,7 @@ The beginning is done with a simple instruction set. This is expanded in the fut
 05 - store into a variable
 
 ## Arithmetic instructions
-0A - add expression
+A0 - add expression
+A1 - sub expression
+A2 - mul expression
+A3 - div expression

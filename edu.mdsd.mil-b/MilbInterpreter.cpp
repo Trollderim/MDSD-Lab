@@ -40,12 +40,17 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
             }
             break;
             case Bytecodes::ARITHMETIC_ADD:
-            {
-                const auto op2 = popFromStack();
-                const auto op1 = popFromStack();
-                operandStack.push(op1 + op2);
-            }
-            break;
+                appliyArithmeticOperation(ADD);
+                break;
+            case Bytecodes::ARITHMETIC_SUB:
+                appliyArithmeticOperation(SUB);
+                break;
+            case Bytecodes::ARITHMETIC_DIV:
+                appliyArithmeticOperation(DIV);
+                break;
+            case Bytecodes::ARITHMETIC_MUL:
+                appliyArithmeticOperation(MUL);
+                break;
             default:
                 auto stream = std::stringstream();
                 stream << "Unsuported operation in bytestream. Operator: ";
@@ -56,6 +61,28 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
     }
 
     return variableRegister;
+}
+
+void MilbInterpreter::appliyArithmeticOperation(ArithmeticOperation operation) {
+    const auto op2 = popFromStack();
+    const auto op1 = popFromStack();
+
+    switch (operation) {
+        case ADD:
+            operandStack.push(op1 + op2);
+            break;
+        case SUB:
+            operandStack.push(op1 - op2);
+            break;
+        case MUL:
+            operandStack.push(op1 * op2);
+            break;
+        case DIV:
+            operandStack.push(op1 / op2);
+            break;
+        default:
+            break;
+    }
 }
 
 int MilbInterpreter::popFromStack() {

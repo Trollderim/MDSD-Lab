@@ -9,12 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 import edu.mdsd.mil.AddInstruction;
+import edu.mdsd.mil.ArithmeticInstruction;
 import edu.mdsd.mil.ConstantInteger;
+import edu.mdsd.mil.DivInstruction;
 import edu.mdsd.mil.Instruction;
 import edu.mdsd.mil.LoadInstruction;
 import edu.mdsd.mil.MILModel;
+import edu.mdsd.mil.MulInstruction;
 import edu.mdsd.mil.RegisterReference;
 import edu.mdsd.mil.StoreInstruction;
+import edu.mdsd.mil.SubInstruction;
 import edu.mdsd.mil.Value;
 
 public class MILToMILBCompiler {
@@ -23,7 +27,10 @@ public class MILToMILBCompiler {
 		LOAD_VARIABLE(0x02),
 		STORE_DUMP(0x04),
 		STORE_VARIABLE(0x05),
-		ARITHMETIC_ADD(0xA0);
+		ARITHMETIC_ADD(0xA0),
+		ARITHMETIC_SUB(0xA1),
+		ARITHMETIC_MUL(0xA2),
+		ARITHMETIC_DIV(0xA3);
 		
 		private Byte pattern;
 		
@@ -72,13 +79,25 @@ public class MILToMILBCompiler {
 				int variableIndex = getVariableIndex(storeInstruction.getRegisterReference().getAddress());
 				translated.add((byte) variableIndex);
 			}
-		} else if(instruction instanceof AddInstruction) {
-			translated.add(Bytecodes.ARITHMETIC_ADD.pattern);
+		} else if(instruction instanceof ArithmeticInstruction) {
+			translateArithmeticInstruction(translated, (ArithmeticInstruction) instruction);
 		} else {
 			//throw new UnsupportedOperationException();
 		}
 		
 		return translated;
+	}
+
+	private void translateArithmeticInstruction(List<Byte> translated, ArithmeticInstruction instruction) {
+		if(instruction instanceof AddInstruction) {
+			translated.add(Bytecodes.ARITHMETIC_ADD.pattern);
+		} else if(instruction instanceof SubInstruction) {
+			translated.add(Bytecodes.ARITHMETIC_SUB.pattern);
+		} else if(instruction instanceof MulInstruction) {
+			translated.add(Bytecodes.ARITHMETIC_MUL.pattern);
+		} else if(instruction instanceof DivInstruction) {
+			translated.add(Bytecodes.ARITHMETIC_DIV.pattern);
+		}
 	}
 
 	private void translateLoadInstruction(List<Byte> translated, LoadInstruction loadInstruction) {

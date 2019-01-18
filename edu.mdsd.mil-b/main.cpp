@@ -24,9 +24,10 @@ int main() {
         input.read(buffer, length);
 
         if(input) {
-            std::cout << "all characters read succesfully.";
+            std::cout << "all characters read succesfully." << std::endl;
         } else {
-            std::cout << "error: only " << input.gcount() << " could be read";
+            std::cout << "error: only " << input.gcount() << " could be read" << std::endl;
+            return 0;
         }
 
         const auto byteVector = std::vector<unsigned char>(buffer, buffer + length);
@@ -34,6 +35,7 @@ int main() {
         for(auto byte : byteVector) {
             std::cout << (int) byte;
         }
+        std::cout << std::endl;
 
         input.close();
 
