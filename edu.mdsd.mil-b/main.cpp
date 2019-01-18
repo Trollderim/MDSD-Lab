@@ -39,6 +39,10 @@ int main() {
 
         auto interpreter = MilbInterpreter();
         auto result = interpreter.interpretByteCode(byteVector);
+
+        for(const auto entry : result) {
+            std::cout << entry.first << " = " << entry.second << std::endl;
+        }
     }
 
     return 0;

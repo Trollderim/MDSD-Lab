@@ -21,7 +21,3 @@ The beginning is done with a simple instruction set. This is expanded in the fut
 
 ## Arithmetic instructions
 0A - add expression
-
-## Special sections
-F0 - 4 byte constants
-F1 - string constants

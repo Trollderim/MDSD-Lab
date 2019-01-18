@@ -7,19 +7,19 @@ lod b
 lod 4
 mul
 lt
-jpc else_92077a34ede34156b26f8a686241e2a2
-jmp endif_92077a34ede34156b26f8a686241e2a2
-else_92077a34ede34156b26f8a686241e2a2:
-endif_92077a34ede34156b26f8a686241e2a2:
+jpc else_85b5741768114d2c9f79c8c9246847fe
+jmp endif_85b5741768114d2c9f79c8c9246847fe
+else_85b5741768114d2c9f79c8c9246847fe:
+endif_85b5741768114d2c9f79c8c9246847fe:
 lod a
 lod 5
 lod b
 add
 leq
-jpc else_5ac9dc83f9e6459ea7c1135c1aa77db0
-jmp endif_5ac9dc83f9e6459ea7c1135c1aa77db0
-else_5ac9dc83f9e6459ea7c1135c1aa77db0:
-endif_5ac9dc83f9e6459ea7c1135c1aa77db0:
+jpc else_921f6e9aa02f48488fa9bdeafad4e40b
+jmp endif_921f6e9aa02f48488fa9bdeafad4e40b
+else_921f6e9aa02f48488fa9bdeafad4e40b:
+endif_921f6e9aa02f48488fa9bdeafad4e40b:
 lod a
 lod b
 lod 2
@@ -27,28 +27,28 @@ mul
 lod 3
 sub
 eq
-jpc else_55ff0b5d40be4e2b9bb4473672332436
-jmp endif_55ff0b5d40be4e2b9bb4473672332436
-else_55ff0b5d40be4e2b9bb4473672332436:
-endif_55ff0b5d40be4e2b9bb4473672332436:
+jpc else_2feccf7f30c24ce5bbea4683baa41910
+jmp endif_2feccf7f30c24ce5bbea4683baa41910
+else_2feccf7f30c24ce5bbea4683baa41910:
+endif_2feccf7f30c24ce5bbea4683baa41910:
 lod a
 lod 5
 sub
 lod 5
 neq
-jpc else_9bd4500953a94db986ef7133d46dd5e0
-jmp endif_9bd4500953a94db986ef7133d46dd5e0
-else_9bd4500953a94db986ef7133d46dd5e0:
-endif_9bd4500953a94db986ef7133d46dd5e0:
+jpc else_16be6a6fdcfa47b880139d883c32dcca
+jmp endif_16be6a6fdcfa47b880139d883c32dcca
+else_16be6a6fdcfa47b880139d883c32dcca:
+endif_16be6a6fdcfa47b880139d883c32dcca:
 lod a
 lod 2
 mul
 lod b
 geq
-jpc else_6efd70e45dc04f2d8784314060664f95
-jmp endif_6efd70e45dc04f2d8784314060664f95
-else_6efd70e45dc04f2d8784314060664f95:
-endif_6efd70e45dc04f2d8784314060664f95:
+jpc else_97fbb87b2a3d4d7ab758d663fff7b61a
+jmp endif_97fbb87b2a3d4d7ab758d663fff7b61a
+else_97fbb87b2a3d4d7ab758d663fff7b61a:
+endif_97fbb87b2a3d4d7ab758d663fff7b61a:
 lod a
 lod 5
 add
@@ -60,9 +60,9 @@ mul
 lod -7
 add
 gt
-jpc else_1f0bc3fbd9d44aa4bc8936cf1a6e11f8
-jmp endif_1f0bc3fbd9d44aa4bc8936cf1a6e11f8
-else_1f0bc3fbd9d44aa4bc8936cf1a6e11f8:
-endif_1f0bc3fbd9d44aa4bc8936cf1a6e11f8:
+jpc else_7727100beb6743689534672301ac29c7
+jmp endif_7727100beb6743689534672301ac29c7
+else_7727100beb6743689534672301ac29c7:
+endif_7727100beb6743689534672301ac29c7:
 jmp EndProgram
 EndProgram:

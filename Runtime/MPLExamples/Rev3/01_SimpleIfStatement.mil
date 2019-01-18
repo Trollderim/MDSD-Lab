@@ -5,11 +5,11 @@ sto b
 lod a
 lod 5
 gt
-jpc else_2b1065a7c4ee4a5c89c359c9ef4e66e1
+jpc else_64010aba7cc34f37b2ac129643534f75
 lod 3
 sto b
-jmp endif_2b1065a7c4ee4a5c89c359c9ef4e66e1
-else_2b1065a7c4ee4a5c89c359c9ef4e66e1:
-endif_2b1065a7c4ee4a5c89c359c9ef4e66e1:
+jmp endif_64010aba7cc34f37b2ac129643534f75
+else_64010aba7cc34f37b2ac129643534f75:
+endif_64010aba7cc34f37b2ac129643534f75:
 jmp EndProgram
 EndProgram:

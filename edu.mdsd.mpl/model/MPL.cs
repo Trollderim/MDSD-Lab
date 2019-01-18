@@ -72,7 +72,7 @@ RULES {
 	ParenthesisExpression ::= "(" operand ")";
 	
 //	@Operator(type="primitive", weight="5", superclass="Statement")
-	Assignment ::= leftHandSide #1 ":=" #1 rightHandSide (".")?;
+	Assignment ::= leftHandSide #1 ":=" #1 rightHandSide ".";
 	
 	ExpressionStatement ::= expression ".";
 	
