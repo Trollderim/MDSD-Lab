@@ -6,10 +6,12 @@
 
 #include <exception>
 #include <cmath>
+#include <iostream>
 #include <sstream>
 
 std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vector<unsigned char> &byteStream) {
     auto itAfterStrings = extractStringsFromBytestream(byteStream);
+    stackFrames.push(StackFrame(itAfterStrings));
 
     for(auto it = itAfterStrings; it != byteStream.end(); it++) {
         switch (*it) {
@@ -22,7 +24,7 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
                 break;
             case Bytecodes::LOAD_VARIABLE:
             {
-                auto value = variableRegister[*(it + 1)];
+                auto value = stackFrames.top().getVariableRegisterValue(*(it + 1));
                 operandStack.push(value);
                 it++;
             }
@@ -37,7 +39,7 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
                 const auto value = operandStack.top();
                 operandStack.pop();
                 const auto variableIndex = *(it + 1);
-                variableRegister[variableIndex] = value;
+                stackFrames.top().setVariableRegisterValue(variableIndex, value);
                 it++;
             }
             break;
@@ -85,6 +87,32 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
             case GREATERTHANEQUAL:
                 applyComparison(OP_GREATERTHANEQUAL);
                 break;
+            case YIELD:
+            {
+                const auto value = popFromStack();
+                std::cout << value;
+                break;
+            }
+            case PRINT:
+            {
+                const auto stringLocation = loadInteger(it + 1);
+                std::cout << stringConstants[stringLocation];
+                it += 4;
+                break;
+            }
+            case CALL_OPERATION:
+            {
+                const auto jumpTo = loadInteger(it + 1);
+                stackFrames.push(StackFrame(it + sizeof(int)));
+                it = itAfterStrings + (jumpTo - 1);
+                break;
+            }
+            case RETURN:
+            {
+                it = stackFrames.top().getReturnAddress();
+                stackFrames.pop();
+                break;
+            }
             default:
                 auto stream = std::stringstream();
                 stream << "Unsuported operation in bytestream. Operator: ";
@@ -94,7 +122,7 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
         }
     }
 
-    return variableRegister;
+    return stackFrames.top().getVariableRegister();
 }
 
 void MilbInterpreter::appliyArithmeticOperation(ArithmeticOperation operation) {

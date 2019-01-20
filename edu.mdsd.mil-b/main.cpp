@@ -10,6 +10,8 @@
 #include "MilbInterpreter.h"
 
 int main() {
+    clock_t begin = clock();
+
     std::ifstream input("../Test.milb", std::ifstream::binary);
 
     if(input) {
@@ -46,6 +48,10 @@ int main() {
             std::cout << entry.first << " = " << entry.second << std::endl;
         }
     }
+
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    std::cout << "Time: " << elapsed_secs << std::endl;
 
     return 0;
 }

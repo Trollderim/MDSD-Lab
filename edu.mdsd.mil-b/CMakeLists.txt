@@ -3,4 +3,4 @@ project (MIL-B)
 
 set (CMAKE_CXX_STANDARD 17)
 
-add_executable(MIL-B-Interpreter main.cpp MilbInterpreter.cpp MilbInterpreter.h)
+add_executable(MIL-B-Interpreter main.cpp MilbInterpreter.cpp MilbInterpreter.h StackFrame.cpp StackFrame.h)

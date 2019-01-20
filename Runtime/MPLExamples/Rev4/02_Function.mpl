@@ -13,10 +13,6 @@ Program Example
 End.
 
 Function F()
-	Return 1.
-End.
-
-Function F()
 	Variables a.
 	
 	//Body

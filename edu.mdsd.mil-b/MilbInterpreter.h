@@ -9,6 +9,7 @@
 #include <stack>
 #include <unordered_map>
 #include <vector>
+#include "StackFrame.h"
 
 class MilbInterpreter {
 public:
@@ -55,7 +56,7 @@ private:
     };
 
     std::stack<int> operandStack;
-    std::unordered_map<int, int> variableRegister;
+    std::stack<StackFrame> stackFrames;
 
     std::vector<std::string> stringConstants;
 

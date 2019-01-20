@@ -278,6 +278,8 @@ public class MILToMILBCompiler {
 			translated.add(temp);
 		}
 		
+		translated.add((byte) 0);
+		
 		return translated;
 	}
 	
