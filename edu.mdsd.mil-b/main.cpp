@@ -8,6 +8,7 @@
 #include <zconf.h>
 #include <array>
 #include "MilbInterpreter.h"
+#include "PrimeFinder.h"
 
 int main() {
     clock_t begin = clock();
@@ -48,6 +49,8 @@ int main() {
             std::cout << entry.first << " = " << entry.second << std::endl;
         }
     }
+
+    //PrimeFinder::findPrimes();
 
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
