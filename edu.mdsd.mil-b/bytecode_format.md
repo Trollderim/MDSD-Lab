@@ -1,15 +1,11 @@
 # Bytecode format for MIL-B
 This bytecode is supposed to be space efficient for the MIL language. It is intended to consist of different codes for the various instructions.
 
-The arguments are given by a trailing argument number. This points to the number of the given variable. Those are enumerated in declaration order.
+THe variables are given by their respective index with one char length (allowing maximum of 256 local variables).
 
-E.g: If you want to address the variable a, which is the first, you have to write: <load variable bytecode> 00.
+The strings are the first group they are null terminated strings, which are preceded by an integer with their respective counts.
 
-To allow more than 256 variables, there will be an extension in the future. For now there is a limitation for 128 local variables + parameters.
-
-To store constants, there will be a reference of constants at the end of the program. This is going to be there also for strings etc.
-
-The beginning is done with a simple instruction set. This is expanded in the future.
+The jump labels are the second group. They are preceded by the number of the jump labels.
 
 ## Load instructions
 01 - Load with a constant integer
@@ -20,7 +16,19 @@ The beginning is done with a simple instruction set. This is expanded in the fut
 05 - store into a variable
 
 ## Arithmetic instructions
-A0 - add expression
-A1 - sub expression
-A2 - mul expression
-A3 - div expression
+- A0 - add expression
+- A1 - sub expression
+- A2 - mul expression
+- A3 - div expression
+
+## Jump instructions
+- B0 - Unconditional Jump
+- B1 - Conditional Jump
+
+## Comparison operators
+- C0 - Equal 
+- C1 - Inequal
+- C2 - LessThan
+- C3 - LessThanEqual 
+- C4 - GreaterThan 
+- C5 - GreaterThanEqual 

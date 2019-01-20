@@ -9,7 +9,9 @@
 #include <sstream>
 
 std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vector<unsigned char> &byteStream) {
-    for(auto it = byteStream.begin(); it != byteStream.end(); it++) {
+    auto itAfterStrings = extractStringsFromBytestream(byteStream);
+
+    for(auto it = itAfterStrings; it != byteStream.end(); it++) {
         switch (*it) {
             case Bytecodes::LOAD_CONSTANT:
             {
@@ -50,6 +52,38 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
                 break;
             case Bytecodes::ARITHMETIC_MUL:
                 appliyArithmeticOperation(MUL);
+                break;
+            case JUMP_CONDITIONAL:
+            {
+                const auto comparison = popFromStack();
+                if(comparison) {
+                    it += 4;
+                    break;
+                }
+            }
+            case JUMP_UNCONDITIONAL:
+            {
+                const auto jumpTo = loadInteger(it + 1);
+                it = itAfterStrings + (jumpTo - 1);
+                break;
+            }
+            case EQUAL:
+                applyComparison(OP_EQUAL);
+                break;
+            case INEQUAL:
+                applyComparison(OP_INEQUAL);
+                break;
+            case LESSTHAN:
+                applyComparison(OP_LESSTHAN);
+                break;
+            case LESSTHANEQUAL:
+                applyComparison(OP_LESSTHANEQUAL);
+                break;
+            case GREATERTHAN:
+                applyComparison(OP_GREATERTHAN);
+                break;
+            case GREATERTHANEQUAL:
+                applyComparison(OP_GREATERTHANEQUAL);
                 break;
             default:
                 auto stream = std::stringstream();
@@ -96,4 +130,63 @@ int MilbInterpreter::loadInteger(
     int value = (iterator[0] << 24) | (iterator[1] << 16) | (iterator[2] << 8) | (iterator[3]);
 
     return value;
+}
+
+__gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>>
+MilbInterpreter::extractStringsFromBytestream(const std::vector<unsigned char> &byteStream) {
+    auto countStrings = loadInteger(byteStream.begin());
+
+    auto it = byteStream.begin() + sizeof(int);
+
+    for(auto i = 0; i < countStrings; i++) {
+        const auto stringConstant = loadString(it);
+        stringConstants.push_back(stringConstant);
+        it += stringConstant.length() + 1;
+    }
+
+    return it;
+}
+
+std::string MilbInterpreter::loadString(
+        __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> iterator) {
+    std::stringstream stringConstant;
+
+    while(*iterator != 0) {
+        stringConstant.put(*iterator);
+        iterator++;
+    }
+
+    return stringConstant.str();
+}
+
+void MilbInterpreter::applyComparison(ComparisonOperator comparison) {
+    const auto op2 = popFromStack();
+    const auto op1 = popFromStack();
+
+    int result = 0;
+
+    switch (comparison) {
+        case OP_EQUAL:
+            result = op1 == op2;
+            break;
+        case OP_INEQUAL:
+            result = op1 != op2;
+            break;
+        case OP_LESSTHAN:
+            result = op1 < op2;
+            break;
+        case OP_LESSTHANEQUAL:
+            result = op1 <= op2;
+            break;
+        case OP_GREATERTHAN:
+            result = op1 > op2;
+            break;
+        case OP_GREATERTHANEQUAL:
+            result = op1 >= op2;
+            break;
+        default:
+            break;
+    }
+
+    operandStack.push(result);
 }
