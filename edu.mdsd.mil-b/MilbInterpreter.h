@@ -60,16 +60,17 @@ private:
 
     std::vector<std::string> stringConstants;
 
-    int loadInteger(__gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> iterator);
+    int programCounter;
+
+    int loadInteger(int index, const std::vector<unsigned char>& byteStream);
 
     int popFromStack();
 
     void appliyArithmeticOperation(ArithmeticOperation operation);
 
-    __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> extractStringsFromBytestream(const std::vector<unsigned char> &byteStream);
+    int extractStringsFromBytestream(const std::vector<unsigned char> &byteStream);
 
-    std::string loadString(
-            __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> iterator);
+    std::string loadString(int, const std::vector<unsigned char>&);
 
     void applyComparison(ComparisonOperator comparison);
 };

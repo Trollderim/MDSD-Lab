@@ -10,21 +10,21 @@
 #include <sstream>
 
 std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vector<unsigned char> &byteStream) {
-    auto itAfterStrings = extractStringsFromBytestream(byteStream);
-    stackFrames.push(StackFrame(itAfterStrings));
+    auto indexAfterString = extractStringsFromBytestream(byteStream);
+    stackFrames.push(StackFrame(indexAfterString));
 
-    for(auto it = itAfterStrings; it != byteStream.end(); it++) {
-        switch (*it) {
+    for(auto it = indexAfterString; it != byteStream.size(); it++) {
+        switch (byteStream[it]) {
             case Bytecodes::LOAD_CONSTANT:
             {
-                auto value = loadInteger(it + 1);
+                auto value = loadInteger(it + 1, byteStream);
                 operandStack.push(value);
                 it += 4;
             }
                 break;
             case Bytecodes::LOAD_VARIABLE:
             {
-                auto value = stackFrames.top().getVariableRegisterValue(*(it + 1));
+                auto value = stackFrames.top().getVariableRegisterValue(byteStream[it + 1]);
                 operandStack.push(value);
                 it++;
             }
@@ -38,7 +38,7 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
             {
                 const auto value = operandStack.top();
                 operandStack.pop();
-                const auto variableIndex = *(it + 1);
+                const auto variableIndex = byteStream[it + 1];
                 stackFrames.top().setVariableRegisterValue(variableIndex, value);
                 it++;
             }
@@ -65,8 +65,8 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
             }
             case JUMP_UNCONDITIONAL:
             {
-                const auto jumpTo = loadInteger(it + 1);
-                it = itAfterStrings + (jumpTo - 1);
+                const auto jumpTo = loadInteger(it + 1, byteStream);
+                it = indexAfterString + (jumpTo - 1);
                 break;
             }
             case EQUAL:
@@ -95,16 +95,16 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
             }
             case PRINT:
             {
-                const auto stringLocation = loadInteger(it + 1);
+                const auto stringLocation = loadInteger(it + 1, byteStream);
                 std::cout << stringConstants[stringLocation];
                 it += 4;
                 break;
             }
             case CALL_OPERATION:
             {
-                const auto jumpTo = loadInteger(it + 1);
+                const auto jumpTo = loadInteger(it + 1,  byteStream);
                 stackFrames.push(StackFrame(it + sizeof(int)));
-                it = itAfterStrings + (jumpTo - 1);
+                it = indexAfterString + (jumpTo - 1);
                 break;
             }
             case RETURN:
@@ -116,7 +116,7 @@ std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vecto
             default:
                 auto stream = std::stringstream();
                 stream << "Unsuported operation in bytestream. Operator: ";
-                stream << (int) *it;
+                stream << byteStream[it];
 
                 throw std::logic_error(stream.str());
         }
@@ -153,21 +153,20 @@ int MilbInterpreter::popFromStack() {
     return op1;
 }
 
-int MilbInterpreter::loadInteger(
-        __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> iterator) {
-    int value = (iterator[0] << 24) | (iterator[1] << 16) | (iterator[2] << 8) | (iterator[3]);
+int MilbInterpreter::loadInteger(int index, const std::vector<unsigned char>& byteStream) {
+    int value = (byteStream[index] << 24) | (byteStream[index + 1] << 16) | (byteStream[index + 2] << 8) | (byteStream[index + 3]);
 
     return value;
 }
 
-__gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>>
+int
 MilbInterpreter::extractStringsFromBytestream(const std::vector<unsigned char> &byteStream) {
-    auto countStrings = loadInteger(byteStream.begin());
+    auto countStrings = loadInteger(0, byteStream);
 
-    auto it = byteStream.begin() + sizeof(int);
+    auto it = sizeof(int);
 
     for(auto i = 0; i < countStrings; i++) {
-        const auto stringConstant = loadString(it);
+        const auto stringConstant = loadString(it, byteStream);
         stringConstants.push_back(stringConstant);
         it += stringConstant.length() + 1;
     }
@@ -175,13 +174,12 @@ MilbInterpreter::extractStringsFromBytestream(const std::vector<unsigned char> &
     return it;
 }
 
-std::string MilbInterpreter::loadString(
-        __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> iterator) {
+std::string MilbInterpreter::loadString(int index, const std::vector<unsigned char> &byteStream) {
     std::stringstream stringConstant;
 
-    while(*iterator != 0) {
-        stringConstant.put(*iterator);
-        iterator++;
+    while(byteStream[index] != 0) {
+        stringConstant.put(byteStream[index]);
+        index++;
     }
 
     return stringConstant.str();

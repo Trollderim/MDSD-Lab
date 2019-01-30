@@ -3,6 +3,6 @@ project (MIL-B)
 
 set (CMAKE_CXX_STANDARD 17)
 
-set (CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS}")
+set (CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O2")
 
 add_executable(MIL-B-Interpreter main.cpp MilbInterpreter.cpp MilbInterpreter.h StackFrame.cpp StackFrame.h PrimeFinder.cpp PrimeFinder.h)

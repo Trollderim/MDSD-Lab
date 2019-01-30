@@ -11,12 +11,12 @@
 
 class StackFrame {
 public:
-    explicit StackFrame(__gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> returnAddressNew) :
+    explicit StackFrame(int returnAddressNew) :
         returnAddress(returnAddressNew) {
 
     }
 
-    __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> getReturnAddress() {
+    int getReturnAddress() {
         return returnAddress;
     }
 
@@ -29,7 +29,7 @@ public:
 
 private:
     std::unordered_map<int, int> variableRegister;
-    __gnu_cxx::__normal_iterator<const unsigned char *, std::vector<unsigned char, std::allocator<unsigned char>>> returnAddress;
+    int returnAddress;
 };
 
 
