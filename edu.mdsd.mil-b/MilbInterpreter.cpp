@@ -8,10 +8,20 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
+#include <functional>
 
 std::unordered_map<int, int> MilbInterpreter::interpretByteCode(const std::vector<unsigned char> &byteStream) {
     auto indexAfterString = extractStringsFromBytestream(byteStream);
     stackFrames.push(StackFrame(indexAfterString));
+
+    auto function_table = std::array<std::function<void>, 256>();
+
+    function_table[Bytecodes::EQUAL] = [&] () {applyComparison(ComparisonOperator::OP_EQUAL);};
+    function_table[Bytecodes::INEQUAL] = [&] () {applyComparison(ComparisonOperator::OP_INEQUAL);};
+    function_table[Bytecodes::GREATERTHAN] = [&] () {applyComparison(ComparisonOperator::OP_GREATERTHAN);};
+    function_table[Bytecodes::GREATERTHANEQUAL] = [&] () {applyComparison(ComparisonOperator::OP_GREATERTHANEQUAL);};
+    function_table[Bytecodes::LESSTHAN] = [&] () {applyComparison(ComparisonOperator::OP_LESSTHAN);};
+    function_table[Bytecodes::LESSTHANEQUAL] = [&] () {applyComparison(ComparisonOperator::OP_LESSTHANEQUAL);};
 
     for(auto it = indexAfterString; it != byteStream.size(); it++) {
         switch (byteStream[it]) {
